@@ -39,11 +39,17 @@ Let's talk.
 - No invented information
 
 ## Open items (blocking final)
-1. **Messi project** — name, imagery, tags, category. Not present in local assets.
-2. **Google Drive portfolio** — https://drive.google.com/drive/folders/1LAdtz3rRtkpHwKYXRk4eTGhW_nSooUke
-   Not reachable: the Drive connector reports insufficient OAuth scope.
-3. **Old IMAWA website** — to be supplied as reference.
-4. **Project tags + category assignment** — provisional, need confirming.
-5. **Service descriptions** — not supplied; placeholders shown.
-6. **Contact emails** — read from an old web comp, not a supplied contact sheet. Confirm.
-7. **Social URLs** — not supplied.
+1. **Messi project** — name, imagery, tags, category. Still a stub.
+2. **Google Drive portfolio** — connector returns `Insufficient scope` for Drive read; not reachable.
+3. **Hero logo** — slot reserved in the hero (`#hero-logo-slot`), awaiting the file.
+4. **Client / partner logos** — to be supplied. Intended treatment: black & white, deduplicated.
+5. **Mar del Plata banner** — deliberately NOT built; awaiting direction.
+6. **Old site animations** — more to be supplied.
+7. **Project tags + categories** — provisional.
+8. **Service descriptions** — not supplied.
+9. **Contact emails** — read from an old comp; confirm before launch.
+10. **Social URLs** — not set.
+
+## Live
+- Repo: https://github.com/n333k0/imawa-site (private)
+- Preview: https://imawa-site-n333k0s-projects.vercel.app
