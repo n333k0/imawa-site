@@ -194,14 +194,22 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .svc .d{font-size:14px;color:var(--ink-60);max-width:34ch;flex:1;min-width:0}
 
 /* ================= process ================= */
-.steps{display:grid;gap:0;margin-top:10px;border-top:1px solid var(--ink-15);
-  grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr))}
-.step{padding:clamp(22px,3vw,34px) clamp(16px,2vw,26px) clamp(22px,3vw,34px) 0;
-  border-bottom:1px solid var(--ink-15);transition:background .4s var(--ease)}
-.step:hover{background:rgba(186,164,123,.10)}
-.step .n{font-size:11px;letter-spacing:.2em;color:var(--cream);font-weight:600}
+/* The container is the SAME black as the section, and every step carries its own
+   black. Dividers are borders on the steps, not a light background showing through
+   a 1px grid gap - that older approach flashed light while the steps faded in. */
+.steps{display:grid;gap:0;margin-top:10px;
+  background:var(--dark);
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));
+  border-top:1px solid rgba(235,235,235,.18)}
+.step{background:var(--dark);
+  padding:clamp(22px,3vw,34px);
+  border-bottom:1px solid rgba(235,235,235,.18);
+  border-right:1px solid rgba(235,235,235,.18);
+  transition:background .4s var(--ease)}
+.step:hover{background:#1d1d1d}
+.step .n{font-size:11px;letter-spacing:.2em;color:var(--cream-soft);font-weight:600}
 .step h3{margin:12px 0 0;font-size:clamp(1.2rem,2.4vw,1.7rem);
-  font-weight:300;letter-spacing:-.02em;color:var(--ink)}
+  font-weight:300;letter-spacing:-.02em;color:var(--bg)}
 
 /* ================= prose ================= */
 .prose{max-width:62ch}
