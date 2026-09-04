@@ -70,7 +70,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 /* headline smaller than before, subheader sits under it */
 .hero h1{margin:0;font-weight:300;letter-spacing:-.03em;line-height:1;
   font-size:clamp(3rem,11.5vw,10.5rem)}
-.line{display:block;overflow:hidden}
+/* optical alignment: pull each line left by its first glyph's side
+   bearing, measured by render, so the ink lines up with the logo. */
+.line{display:block;overflow:hidden;margin-left:calc(var(--lsb,0em) * -1)}
 .line>i{display:block;font-style:normal;transform:translateY(102%);
   animation:riseIn .95s var(--ease) .15s forwards}
 .line:nth-child(2)>i{animation-delay:.27s}
