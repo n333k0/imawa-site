@@ -30,7 +30,7 @@
     nav.addEventListener('click', function (e) { if (e.target.closest('a')) closeNav(); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeNav(); });
     window.addEventListener('resize', function () {
-      if (window.innerWidth > 860) closeNav();
+      if (window.innerWidth > 900) closeNav();
     });
   }
 
@@ -84,26 +84,6 @@
         if (target) target.click();
       }
     } catch (err) {}
-  }
-
-  /* ---------- "Play hover notice" — demos the card rollover ---------- */
-  var play = document.querySelector('[data-hoverdemo]');
-  if (play && grid) {
-    var running = false;
-    play.addEventListener('click', function () {
-      if (running) return;
-      running = true;
-      play.textContent = 'Playing…';
-      var visible = Array.prototype.slice.call(grid.querySelectorAll('.card:not(.is-hidden)'));
-      visible.forEach(function (c, i) {
-        setTimeout(function () { c.classList.add('demo'); }, i * 260);
-        setTimeout(function () { c.classList.remove('demo'); }, i * 260 + 1400);
-      });
-      setTimeout(function () {
-        running = false;
-        play.textContent = 'Play hover notice';
-      }, visible.length * 260 + 1500);
-    });
   }
 
   /* ---------- scroll reveal ---------- */
