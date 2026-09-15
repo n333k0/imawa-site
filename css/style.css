@@ -447,3 +447,9 @@ body.lb-open{overflow:hidden}
    arrives at 45%, so that is no longer needed - and it let the headline
    paint over the bar on short viewports. */
 .intro__inner{z-index:1}
+
+
+/* The banner carried a top margin, leaving a gap between the last row of the
+   grid and the banner. Flush against it instead - the grid is gapless, so a
+   gap only here read as a mistake. */
+.fest{margin-top:0}
