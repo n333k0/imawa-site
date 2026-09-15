@@ -95,7 +95,6 @@
 
   if (intro && introLogo && hdrLogo && !reduce) {
     root.style.setProperty('--logo-op', 0);
-    hdr.classList.add('is-top');
     var imgs = [introLogo, hdrLogo];
     var pending = imgs.filter(function (i) { return !i.complete; }).length;
     function ready() { if (--pending <= 0 || true) { measure(); onScroll(); } }
@@ -110,17 +109,7 @@
     }, { passive: true });
   }
 
-  /* ---------- header hides on scroll, but never over the intro ---------- */
-  if (hdr && !reduce) {
-    var last = 0;
-    window.addEventListener('scroll', function () {
-      var y = scrollY;
-      var overIntro = intro && y < intro.offsetHeight - innerHeight;
-      if (nav && nav.classList.contains('open')) return;
-      if (!overIntro) hdr.classList.toggle('is-hidden', y > last && y > 220);
-      last = y;
-    }, { passive: true });
-  }
+  /* the bar stays put once the intro has handed it over */
 
   /* ---------- work: filters + view switcher ---------- */
   var grid = document.querySelector('.grid[data-view]');
