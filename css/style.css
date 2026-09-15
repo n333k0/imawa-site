@@ -34,7 +34,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .skip:focus{left:12px;top:12px;background:var(--paper);color:var(--black);padding:10px 16px;z-index:200}
 
 /* ================= header ================= */
-.hdr{position:sticky;top:0;z-index:100;background:rgba(10,10,10,.72);
+.hdr{position:fixed;left:0;right:0;top:0;z-index:100;background:rgba(10,10,10,.72);
   backdrop-filter:blur(16px);border-bottom:1px solid var(--line);
   transition:transform .45s var(--ease)}
 .hdr.is-hidden{transform:translateY(-100%)}
@@ -407,3 +407,16 @@ body.lb-open{overflow:hidden}
 .intro__head .line{overflow:visible}
 .intro__head .line>i{transform:none;animation:none}
 .intro__sub{position:relative;z-index:1;margin:0 auto;max-width:44ch}
+
+
+/* ======================================================================
+   POST-DELIVERY 6
+   ====================================================================== */
+
+/* The bar was sticky, so it reserved 51px of layout even while translated
+   out of view - that reserved strip showed the body colour above the intro's
+   pure black and read as a grey band. Fixed takes it out of the flow, so the
+   intro starts at the very top of the viewport. */
+.hdr{will-change:transform}
+/* About has no intro, so its first section must clear the fixed bar */
+.hero{padding-top:calc(clamp(40px,8vh,96px) + 56px)}
