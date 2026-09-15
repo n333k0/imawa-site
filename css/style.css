@@ -385,3 +385,25 @@ body.lb-open{overflow:hidden}
 .fest{margin:clamp(28px,4vw,52px) 0 0;border:0;
   border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .fest__cap{padding:14px var(--pad)}
+
+
+/* ======================================================================
+   POST-DELIVERY 5 — mark and headline share one stage
+   ====================================================================== */
+
+/* Long enough to play the swap and then hold the headline, so nothing
+   scrolls past an empty screen. */
+.intro{height:200svh}
+.intro__inner{gap:clamp(18px,2.6vw,30px)}
+
+/* both sit in the same grid cell: one leaves, the other arrives in place */
+.intro__swap{position:relative;z-index:1;display:grid;width:100%;
+  place-items:center;min-height:clamp(120px,22vh,230px)}
+.intro__swap > *{grid-area:1/1}
+.intro__logo{width:min(78vw,900px);transform-origin:center top;
+  will-change:transform,opacity}
+.intro__head{margin:0;font-weight:300;letter-spacing:-.03em;line-height:1;
+  font-size:clamp(2.1rem,8vw,7.35rem);opacity:0;will-change:opacity,transform}
+.intro__head .line{overflow:visible}
+.intro__head .line>i{transform:none;animation:none}
+.intro__sub{position:relative;z-index:1;margin:0 auto;max-width:44ch}

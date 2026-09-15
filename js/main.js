@@ -51,6 +51,7 @@
   var hdrLogo = document.querySelector('.hdr .logo img');
   var sub = document.querySelector('.intro__sub');
   var sd = document.querySelector('.scrolldown');
+  var head = document.getElementById('introHead');
   var flip = null;
 
   function measure() {
@@ -69,14 +70,25 @@
     if (!intro || !flip) return;
     var span = intro.offsetHeight - innerHeight;
     var p = span > 0 ? Math.min(1, Math.max(0, scrollY / span)) : 1;
-    var e = p * p * (3 - 2 * p);                        // smoothstep
+    function seg(a, b) { return Math.max(0, Math.min(1, (p - a) / (b - a))); }
+    function smooth(x) { return x * x * (3 - 2 * x); }
+
+    // the mark rises straight out
+    var out = smooth(seg(0, 0.45));
     introLogo.style.transform =
-      'translateY(' + (flip.dy * e) + 'px) scale(' + (1 + (flip.s - 1) * e) + ')';
-    var fade = Math.max(0, 1 - p * 2.6);                // sub + cue leave first
-    if (sub) sub.style.opacity = fade;
-    if (sd) sd.style.opacity = fade;
-    introLogo.style.opacity = Math.max(0, Math.min(1, (0.88 - p) / 0.18));
-    var barIn = p > 0.62;                               // menu arrives next
+      'translateY(' + (flip.dy * out) + 'px) scale(' + (1 + (flip.s - 1) * out) + ')';
+    introLogo.style.opacity = 1 - seg(0.18, 0.44);
+
+    // the headline arrives in the very spot it left, overlapping slightly so
+    // the stage is never empty
+    var inn = smooth(seg(0.34, 0.60));
+    if (head) {
+      head.style.opacity = inn;
+      head.style.transform = 'translateY(' + (20 * (1 - inn)) + 'px)';
+    }
+
+    if (sd) sd.style.opacity = 1 - seg(0, 0.22);   // scroll cue steps aside
+    var barIn = p > 0.45;                          // then the menu arrives
     root.style.setProperty('--logo-op', barIn ? 1 : 0);
     if (hdr) hdr.classList.toggle('is-top', !barIn);
   }
