@@ -234,3 +234,83 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   .hero__sub{opacity:1}
   .tags{opacity:1;transform:none}
 }
+
+/* ======================================================================
+   POST-DELIVERY 2 — intro curtain, lightbox, festival banner
+   ====================================================================== */
+
+/* ---------- intro curtain ---------- */
+.intro{height:170svh;position:relative;background:var(--black)}
+.intro__inner{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:clamp(20px,3vw,34px);
+  padding:0 var(--pad);text-align:center;overflow:hidden}
+.intro__inner::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(90% 60% at 50% 45%,rgba(186,164,123,.15),transparent 65%)}
+.intro__logo{position:relative;z-index:1;width:min(78vw,900px);
+  transform-origin:center center;will-change:transform,opacity}
+.intro__sub{position:relative;z-index:1;margin:0;max-width:44ch;
+  font-size:clamp(.95rem,1.5vw,1.3rem);font-weight:300;line-height:1.5;color:var(--paper-70);
+  will-change:opacity}
+.scrolldown{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;
+  gap:10px;margin-top:clamp(8px,2vw,20px);font-size:10px;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--paper-45);will-change:opacity}
+.scrolldown:hover{color:var(--cream)}
+.scrolldown i{display:block;width:1px;height:46px;background:linear-gradient(to bottom,
+  transparent,var(--cream));position:relative;overflow:hidden}
+.scrolldown i::after{content:"";position:absolute;left:0;top:-46px;width:1px;height:46px;
+  background:linear-gradient(to bottom,transparent,var(--paper));
+  animation:dropline 1.9s var(--ease) infinite}
+@keyframes dropline{0%{transform:translateY(0)}60%,100%{transform:translateY(92px)}}
+/* header logo fades in as the intro mark lands in the bar */
+.hdr .logo img{opacity:var(--logo-op,1);transition:opacity .25s linear}
+
+/* ---------- headline: 30% smaller than before ---------- */
+.hero h1{font-size:clamp(2.1rem,8vw,7.35rem)}
+
+/* ---------- services: smaller, no hover (they link nowhere) ---------- */
+.svc .t{font-size:clamp(1.05rem,2.2vw,1.65rem)}
+.svc .row{padding:clamp(14px,2vw,22px) 0}
+.svc li:hover .row{padding-left:0}
+.svc li:hover .t{color:inherit}
+
+/* ---------- work cards become play triggers ---------- */
+.card{cursor:pointer;border:0;padding:0;text-align:left;width:100%;font:inherit;color:inherit}
+.card__play{position:absolute;left:50%;top:50%;width:clamp(44px,4.5vw,64px);aspect-ratio:1;
+  transform:translate(-50%,-50%) scale(.85);border-radius:50%;
+  border:1px solid rgba(235,235,235,.6);background:rgba(0,0,0,.30);backdrop-filter:blur(3px);
+  display:grid;place-items:center;opacity:0;transition:.45s var(--ease);z-index:2}
+.card:hover .card__play,.card:focus-visible .card__play{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.card__play::after{content:"";border-left:11px solid var(--paper);
+  border-top:7px solid transparent;border-bottom:7px solid transparent;margin-left:3px}
+.card__src{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--cream)}
+
+/* ---------- festival banner inside work ---------- */
+.fest{margin-top:clamp(28px,4vw,52px);border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);background:var(--black)}
+.fest__img{width:100%;height:auto;display:block;opacity:.85;
+  transition:opacity .5s var(--ease)}
+.fest:hover .fest__img{opacity:1}
+.fest__cap{display:flex;flex-wrap:wrap;align-items:center;gap:16px;justify-content:space-between;
+  padding:14px var(--pad);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--paper-45)}
+.fest__cap img{height:26px;width:auto;opacity:.6}
+
+/* ---------- lightbox ---------- */
+.lb{position:fixed;inset:0;z-index:300;display:none;background:rgba(0,0,0,.95);
+  padding:max(4vmin,54px) 4vmin 4vmin}
+.lb.open{display:grid;place-items:center}
+.lb__box{width:min(96vw,1360px);aspect-ratio:16/9;background:#000;position:relative}
+.lb__box iframe,.lb__box video{position:absolute;inset:0;width:100%;height:100%;border:0}
+.lb__close{position:absolute;top:14px;right:16px;z-index:310;width:44px;height:44px;
+  border:1px solid var(--line-2);border-radius:50%;display:grid;place-items:center;
+  color:var(--paper);font-size:20px;line-height:1;transition:.25s var(--ease)}
+.lb__close:hover{background:var(--paper);color:var(--black)}
+.lb__title{position:absolute;left:0;right:64px;top:-34px;font-size:12px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--paper-45)}
+body.lb-open{overflow:hidden}
+
+@media (prefers-reduced-motion:reduce){
+  .intro{height:auto}
+  .intro__inner{position:static;height:auto;padding-block:clamp(60px,12vh,120px)}
+  .scrolldown i::after{animation:none}
+}
