@@ -431,3 +431,19 @@ body.lb-open{overflow:hidden}
   transform-origin:center}
 .lb__close i::before{transform:translate(-50%,-50%) rotate(45deg)}
 .lb__close i::after{transform:translate(-50%,-50%) rotate(-45deg)}
+
+
+/* ======================================================================
+   POST-DELIVERY 7 — the bar sits on top, solid
+   ====================================================================== */
+
+/* It was translucent with a blur, so whatever scrolled underneath showed
+   through it. Solid black hides it outright and matches the intro exactly,
+   so no tonal band appears where the two meet. */
+.hdr{background:var(--black);backdrop-filter:none}
+
+/* The intro stage used to outrank the bar (z-index 120) so the travelling
+   mark could ride over it. The mark is fully faded by 44% and the bar only
+   arrives at 45%, so that is no longer needed - and it let the headline
+   paint over the bar on short viewports. */
+.intro__inner{z-index:1}
