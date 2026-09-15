@@ -420,3 +420,14 @@ body.lb-open{overflow:hidden}
 .hdr{will-change:transform}
 /* About has no intro, so its first section must clear the fixed bar */
 .hero{padding-top:calc(clamp(40px,8vh,96px) + 56px)}
+
+
+/* The close glyph was the "times" character, whose vertical metrics sit high
+   in the em box, so it never optically centred in the circle. Drawn instead. */
+.lb__close{font-size:0;line-height:0}
+.lb__close i{position:relative;display:block;width:16px;height:16px}
+.lb__close i::before,.lb__close i::after{content:"";position:absolute;
+  top:50%;left:50%;width:16px;height:1.5px;background:currentColor;
+  transform-origin:center}
+.lb__close i::before{transform:translate(-50%,-50%) rotate(45deg)}
+.lb__close i::after{transform:translate(-50%,-50%) rotate(-45deg)}
