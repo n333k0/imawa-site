@@ -453,3 +453,9 @@ body.lb-open{overflow:hidden}
    grid and the banner. Flush against it instead - the grid is gapless, so a
    gap only here read as a mistake. */
 .fest{margin-top:0}
+
+/* Work cards are never hidden waiting for a reveal.
+   A fade-in is decoration; an invisible portfolio grid is a broken page, and
+   any reveal that depends on a callback can leave content stuck at opacity 0.
+   Text blocks keep .rv - if one of those misses, the page still reads. */
+.grid .card{opacity:1;transform:none}
