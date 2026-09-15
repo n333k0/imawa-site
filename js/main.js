@@ -175,16 +175,54 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { closeLb(); closeNav(); } });
   }
 
-  /* ---------- scroll reveal ---------- */
-  var items = document.querySelectorAll('.rv');
+  /* ---------- scroll reveal ----------
+     IntersectionObserver alone is not safe here: when the page jumps or
+     scrolls fast its callback can be missed, and a .rv element that is never
+     told to reveal stays at opacity 0 for good - an invisible portfolio.
+     A throttled sweep runs alongside it and reveals anything that has reached
+     the viewport, so content can never get stuck hidden. */
+  var items = [].slice.call(document.querySelectorAll('.rv'));
   if (!items.length) return;
-  if (reduce || !('IntersectionObserver' in window)) {
-    items.forEach(function (el) { el.classList.add('in'); }); return;
-  }
-  var io = new IntersectionObserver(function (en) {
-    en.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add('in'); io.unobserve(x.target); } });
-  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+  if (reduce) { items.forEach(function (el) { el.classList.add('in'); }); return; }
+
   items.forEach(function (el, i) {
-    el.style.transitionDelay = Math.min(i % 6, 5) * 60 + 'ms'; io.observe(el);
+    el.style.transitionDelay = Math.min(i % 6, 5) * 60 + 'ms';
   });
+
+  function show(el) { el.classList.add('in'); }
+
+  function sweep() {
+    var still = false;
+    for (var i = 0; i < items.length; i++) {
+      var el = items[i];
+      if (el.classList.contains('in')) continue;
+      still = true;
+      var r = el.getBoundingClientRect();
+      if (r.top < innerHeight * 0.96 && r.bottom > 0) show(el);
+    }
+    return still;
+  }
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (en) {
+      en.forEach(function (x) { if (x.isIntersecting) { show(x.target); io.unobserve(x.target); } });
+    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.05 });
+    items.forEach(function (el) { io.observe(el); });
+  }
+
+  var sweeping = false;
+  function queueSweep() {
+    if (sweeping) return;
+    sweeping = true;
+    requestAnimationFrame(function () { sweep(); sweeping = false; });
+  }
+  window.addEventListener('scroll', queueSweep, { passive: true });
+  window.addEventListener('resize', queueSweep);
+  window.addEventListener('load', sweep);
+  sweep();
+  // last resort: if anything is still hidden after the page settles, show it
+  setTimeout(function () { items.forEach(function (el) {
+    var r = el.getBoundingClientRect();
+    if (r.top < innerHeight) show(el);
+  }); }, 1200);
 })();
