@@ -54,34 +54,31 @@
   var flip = null;
 
   function measure() {
-    if (!introLogo || !hdrLogo || reduce) return;
+    if (!introLogo || reduce) return;
     introLogo.style.transform = '';
-    var a = introLogo.getBoundingClientRect(), b = hdrLogo.getBoundingClientRect();
-    if (!a.width || !b.width) return;
-    // the bar starts translated off the top, so its logo measures above the
-    // viewport; add the bar height back to get the real landing position
-    var off = hdr && hdr.classList.contains('is-top') ? hdr.offsetHeight : 0;
-    flip = {
-      dx: (b.left + b.width / 2) - (a.left + a.width / 2),
-      dy: (b.top + off + b.height / 2) - (a.top + a.height / 2),
-      s: b.width / a.width
-    };
+    var a = introLogo.getBoundingClientRect();
+    if (!a.height) return;
+    var barH = hdr ? hdr.offsetHeight : 56;
+    // straight up only: the mark rises until its centre reaches the bar's
+    // centre, then hands off. No horizontal travel - a diagonal flight reads
+    // as a sideways slide, not as the mark going up and out of the way.
+    flip = { dy: -(a.top + a.height / 2 - barH / 2), s: 0.30 };
   }
 
   function onScroll() {
     if (!intro || !flip) return;
     var span = intro.offsetHeight - innerHeight;
     var p = span > 0 ? Math.min(1, Math.max(0, scrollY / span)) : 1;
-    var e = p * p * (3 - 2 * p);                       // smoothstep
+    var e = p * p * (3 - 2 * p);                        // smoothstep
     introLogo.style.transform =
-      'translate(' + (flip.dx * e) + 'px,' + (flip.dy * e) + 'px) scale(' + (1 + (flip.s - 1) * e) + ')';
-    var fade = Math.max(0, 1 - p * 3);                 // sub + cue leave early
+      'translateY(' + (flip.dy * e) + 'px) scale(' + (1 + (flip.s - 1) * e) + ')';
+    var fade = Math.max(0, 1 - p * 2.6);                // sub + cue leave first
     if (sub) sub.style.opacity = fade;
     if (sd) sd.style.opacity = fade;
-    var landed = p > 0.97;
-    introLogo.style.opacity = landed ? 0 : 1;          // hand off to the real nav logo
-    root.style.setProperty('--logo-op', landed ? 1 : 0);
-    if (hdr) hdr.classList.toggle('is-top', !landed);  // bar drops in behind it
+    introLogo.style.opacity = Math.max(0, Math.min(1, (0.88 - p) / 0.18));
+    var barIn = p > 0.62;                               // menu arrives next
+    root.style.setProperty('--logo-op', barIn ? 1 : 0);
+    if (hdr) hdr.classList.toggle('is-top', !barIn);
   }
 
   if (intro && introLogo && hdrLogo && !reduce) {

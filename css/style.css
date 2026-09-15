@@ -363,3 +363,25 @@ body.lb-open{overflow:hidden}
 /* festival banner sits inside the work column, not edge to edge */
 .fest{margin:clamp(28px,4vw,52px) 0 0;border:1px solid var(--line)}
 .fest__cap{padding:14px 18px}
+
+
+/* ======================================================================
+   POST-DELIVERY 4
+   ====================================================================== */
+
+/* "Two up" must mean two. auto-fill with a 560px minimum was fitting three
+   columns on a wide screen, so the label and the layout disagreed. */
+.grid[data-view="2"]{grid-template-columns:repeat(2,minmax(0,1fr))}
+.grid[data-view="3"]{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:900px){
+  .grid[data-view="2"],.grid[data-view="3"]{grid-template-columns:1fr}
+}
+
+/* the intro mark leaves straight up — no sideways flight */
+.intro__logo{transform-origin:center top}
+.intro__sub{margin:0;max-width:44ch}
+
+/* festival banner edge to edge again */
+.fest{margin:clamp(28px,4vw,52px) 0 0;border:0;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.fest__cap{padding:14px var(--pad)}
