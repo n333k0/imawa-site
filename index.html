@@ -29,17 +29,29 @@
 <main id="main">
 
   <!-- intro curtain: big mark, then it flies up into the nav bar on scroll -->
+  <!-- intro curtain: big mark only; it flies up into the nav bar on scroll -->
   <section class="intro" id="intro">
     <div class="intro__inner">
       <img class="intro__logo" id="introLogo" src="assets/imawa-logo-light.png" alt="IMAWA">
-      <p class="intro__sub">Award-winning production company — scoring for broadcasters and brands across the globe.</p>
-      <a class="scrolldown" href="#work"><i></i>Scroll</a>
+      <a class="scrolldown" href="#hero"><i></i>Scroll</a>
     </div>
   </section>
 
-  <section class="hero">
+  <section class="hero" id="hero">
+    <div class="wrap rv">
+      <h1><span class="line"><i>Born from</i></span><span class="line"><i>entertainment.</i></span></h1>
+      <p class="hero__sub">Award-winning production company — scoring for broadcasters and brands across the globe.</p>
+    </div>
+  </section>
+
+  <section class="reel" aria-label="Featured work">
+    <button class="reel__frame card" type="button" data-yt="ZChYJSojy2I"
+            data-title="DSports Messi" aria-label="Play DSports Messi">
+      <img src="media/thumbs/messi.jpg" alt="DSports Messi" width="1600" height="900">
+      <span class="card__play" aria-hidden="true"></span>
+    </button>
     <div class="wrap">
-      <h1><span class="line" style="--lsb:.0925em"><i>Born from</i></span><span class="line" style="--lsb:.0600em"><i>entertainment.</i></span></h1>
+      <div class="reel__cap"><span>Featured — DSports Messi</span><span>TV Broadcast · YouTube</span></div>
     </div>
   </section>
 
@@ -63,16 +75,6 @@
       </div>
     </div>
     <div class="grid" data-view="2">
-      <button class="card rv" data-cat="broadcast" data-yt="ZChYJSojy2I" data-title="DSports Messi" type="button" aria-label="Play DSports Messi">
-        <div class="card__media">
-          <img src="media/thumbs/messi.jpg" alt="DSports Messi" loading="lazy" width="1600" height="900">
-          <span class="card__play" aria-hidden="true"></span>
-          <div class="card__ov">
-            <h3>DSports Messi</h3>
-            <ul class="tags"><li class="tag">TV Broadcast</li><li class="tag card__src">YouTube</li></ul>
-          </div>
-        </div>
-      </button>
       <button class="card rv" data-cat="broadcast" data-file="media/video/argentina-suiza.mp4" data-title="Argentina vs. Suiza" type="button" aria-label="Play Argentina vs. Suiza">
         <div class="card__media">
           <img src="media/thumbs/argentina-suiza.jpg" alt="Argentina vs. Suiza" loading="lazy" width="1600" height="900">
@@ -205,13 +207,15 @@
       </button>
     </div>
 
-    <figure class="fest" style="margin:0">
-      <img class="fest__img" src="media/fest-mardelplata.jpg" alt="40º Festival Internacional de Cine de Mar del Plata">
-      <figcaption class="fest__cap">
-        <span>Festival selections</span>
-        <img src="assets/logos/moscu.png" alt="Moscow International Film Festival">
-      </figcaption>
-    </figure>
+    <div class="wrap">
+      <figure class="fest">
+        <img class="fest__img" src="media/fest-mardelplata.jpg" alt="40º Festival Internacional de Cine de Mar del Plata">
+        <figcaption class="fest__cap">
+          <span>Festival selections</span>
+          <img src="assets/logos/moscu.png" alt="Moscow International Film Festival">
+        </figcaption>
+      </figure>
+    </div>
   </section>
 
   <div class="logos" aria-label="Selected clients">

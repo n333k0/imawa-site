@@ -7,7 +7,7 @@ Thumbnails were extracted with `ffmpeg` from the source files in `PARA WEB` / `P
 
 | # | Work | Category | YouTube |
 |---|------|----------|---------|
-| 1 | DSports Messi | TV Broadcast | https://www.youtube.com/watch?v=ZChYJSojy2I |
+| 1 | **DSports Messi** (featured block, above the grid) | TV Broadcast | https://www.youtube.com/watch?v=ZChYJSojy2I |
 | 2 | DSports — FIFA Club World Cup | TV Opening | https://www.youtube.com/watch?v=Z5FRjGryrbg |
 | 3 | DSports ID | Audio Branding | https://www.youtube.com/watch?v=RE9K9yMM0rM |
 | 4 | Torneos — Copa Argentina | Audio Branding | https://www.youtube.com/watch?v=ahk0vo3jMoA |
@@ -47,7 +47,7 @@ grid — but if this specific Torneos cut should appear, the options are:
 
 | Asset | Used as |
 |-------|---------|
-| `WEB_Banner_principal-03-1.jpg` | Full-width banner closing the work section (`media/fest-mardelplata.jpg`) |
+| `WEB_Banner_principal-03-1.jpg` | Banner closing the work section, inside the content column (`media/fest-mardelplata.jpg`) |
 | `moscu.jpg` | Moscow International Film Festival mark, in the banner caption |
 
 Note: the banner file was referred to as "the DirecTV banner", but it is the

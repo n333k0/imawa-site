@@ -58,9 +58,12 @@
     introLogo.style.transform = '';
     var a = introLogo.getBoundingClientRect(), b = hdrLogo.getBoundingClientRect();
     if (!a.width || !b.width) return;
+    // the bar starts translated off the top, so its logo measures above the
+    // viewport; add the bar height back to get the real landing position
+    var off = hdr && hdr.classList.contains('is-top') ? hdr.offsetHeight : 0;
     flip = {
       dx: (b.left + b.width / 2) - (a.left + a.width / 2),
-      dy: (b.top + b.height / 2) - (a.top + a.height / 2),
+      dy: (b.top + off + b.height / 2) - (a.top + a.height / 2),
       s: b.width / a.width
     };
   }
@@ -75,12 +78,15 @@
     var fade = Math.max(0, 1 - p * 3);                 // sub + cue leave early
     if (sub) sub.style.opacity = fade;
     if (sd) sd.style.opacity = fade;
-    introLogo.style.opacity = p > 0.97 ? 0 : 1;        // hand off to the real nav logo
-    root.style.setProperty('--logo-op', p > 0.97 ? 1 : 0);
+    var landed = p > 0.97;
+    introLogo.style.opacity = landed ? 0 : 1;          // hand off to the real nav logo
+    root.style.setProperty('--logo-op', landed ? 1 : 0);
+    if (hdr) hdr.classList.toggle('is-top', !landed);  // bar drops in behind it
   }
 
   if (intro && introLogo && hdrLogo && !reduce) {
     root.style.setProperty('--logo-op', 0);
+    hdr.classList.add('is-top');
     var imgs = [introLogo, hdrLogo];
     var pending = imgs.filter(function (i) { return !i.complete; }).length;
     function ready() { if (--pending <= 0 || true) { measure(); onScroll(); } }
@@ -102,7 +108,7 @@
       var y = scrollY;
       var overIntro = intro && y < intro.offsetHeight - innerHeight;
       if (nav && nav.classList.contains('open')) return;
-      hdr.classList.toggle('is-hidden', !overIntro && y > last && y > 220);
+      if (!overIntro) hdr.classList.toggle('is-hidden', y > last && y > 220);
       last = y;
     }, { passive: true });
   }
@@ -161,8 +167,9 @@
     lb.classList.remove('open'); document.body.classList.remove('lb-open');
   }
   if (lb && grid) {
-    grid.addEventListener('click', function (e) {
-      var c = e.target.closest('.card'); if (c) openLb(c);
+    document.addEventListener('click', function (e) {
+      var c = e.target.closest('.card[data-yt],.card[data-file]');
+      if (c) openLb(c);
     });
     lbClose.addEventListener('click', closeLb);
     lb.addEventListener('click', function (e) { if (e.target === lb) closeLb(); });
