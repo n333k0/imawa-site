@@ -87,7 +87,8 @@
       head.style.transform = 'translateY(' + (20 * (1 - inn)) + 'px)';
     }
 
-    if (sd) sd.style.opacity = 1 - seg(0, 0.22);   // scroll cue steps aside
+    // the scroll cue stays through the whole intro: it balances the stage
+    // under the headline the same way it did under the mark
     var barIn = p > 0.45;                          // then the menu arrives
     root.style.setProperty('--logo-op', barIn ? 1 : 0);
     if (hdr) hdr.classList.toggle('is-top', !barIn);
