@@ -567,3 +567,10 @@ body.nav-open .hdr{transform:none}
 @media (max-width:900px){
   .contact__mark{margin-top:clamp(72px,16vw,112px)}
 }
+
+
+/* Mobile only: the intro mark sits 10% inside the column the headline and
+   subheadline fill, rather than running the full width with them. */
+@media (max-width:900px){
+  .intro__logo{width:90%}
+}
