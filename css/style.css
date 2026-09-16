@@ -574,3 +574,10 @@ body.nav-open .hdr{transform:none}
 @media (max-width:900px){
   .intro__logo{width:90%}
 }
+
+
+/* Measured on the live page: the mark's ink sat 20px above the rule while the
+   copyright's glyphs sat 22px below it - the 2px is the text's half-leading,
+   since padding lands on the line box, not the letters. Matching the glyphs
+   rather than the box makes the two gaps read as equal. */
+.ftr-btm{margin-top:22px}
