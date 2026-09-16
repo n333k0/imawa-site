@@ -531,3 +531,21 @@ body.nav-open .hdr{transform:none}
   .intro__head{font-size:clamp(2.2rem,12.3vw,4.6rem)}
   .intro__swap{width:100%}
 }
+
+
+/* ======================================================================
+   POST-DELIVERY 10
+   ====================================================================== */
+
+/* The closing mark rose because moving "Let's talk" up cut its top margin,
+   not because of the animation. Restored, and now it sits the same distance
+   above the rule as the rule sits above the copyright line. */
+.contact__mark{margin-top:clamp(56px,9vw,104px)}
+
+@media (max-width:900px){
+  /* The menu panel is a child of the bar, so it painted over the wordmark:
+     the panel carries z-index 99 while the logo sat at auto. Lift the logo,
+     as the burger already is, so both stay above the open panel. */
+  .logo{position:relative;z-index:101}
+  .contact__mark{margin-top:clamp(46px,11vw,76px)}
+}
