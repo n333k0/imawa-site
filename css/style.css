@@ -604,3 +604,15 @@ body.nav-open .hdr{transform:none}
 @media (prefers-reduced-motion:reduce){
   .contact__mark{transform:none}
 }
+
+
+/* ======================================================================
+   POST-DELIVERY 13 — one black
+   ====================================================================== */
+
+/* .sec declared no background, so it showed the body's --ink-900 (#0A0A0A)
+   while the sections around it painted --black (#000). Against pure black
+   that 10/255 difference read as a grey panel behind Selected work.
+   Everything is one black now. */
+body{background:var(--black)}
+.sec{background:var(--black)}
