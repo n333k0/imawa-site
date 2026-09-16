@@ -9,7 +9,7 @@
 
 ## Hero
 **Headline:** Born from entertainment.
-**Subheadline:** Award-winning production company — scoring for broadcasters and brands across the globe.
+**Subheadline:** Award-winning music production company — scoring for broadcasters and brands across the globe.
 
 ## About narrative (supplied)
 Founded by Agustín Iacona and Ary Werthein, IMAWA has spent 15+ years composing original music and sound for film, television and advertising.
