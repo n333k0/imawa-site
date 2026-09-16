@@ -175,6 +175,48 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { closeLb(); closeNav(); } });
   }
 
+  /* ---------- touch: light the card crossing the middle ----------
+     There is no hover on a phone, so the colour, tags and play affordance
+     would never appear. The card closest to the centre of the viewport gets
+     .is-active, which mirrors :hover, and loses it as it moves away. */
+  var touchMQ = window.matchMedia('(max-width: 900px)');
+  var lit = [].slice.call(document.querySelectorAll('.grid .card'));
+  var featured = document.querySelector('.reel__frame');
+  if (featured) lit.push(featured);
+
+  function spotlight() {
+    if (!lit.length) return;
+    if (!touchMQ.matches) {
+      for (var i = 0; i < lit.length; i++) lit[i].classList.remove('is-active');
+      return;
+    }
+    var mid = innerHeight / 2, best = null, bestD = Infinity;
+    for (var j = 0; j < lit.length; j++) {
+      var el = lit[j];
+      if (el.classList.contains('is-hidden')) { el.classList.remove('is-active'); continue; }
+      var r = el.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) { el.classList.remove('is-active'); continue; }
+      var d = Math.abs(r.top + r.height / 2 - mid);
+      if (d < bestD) { bestD = d; best = el; }
+    }
+    var reach = innerHeight * 0.5;
+    for (var k = 0; k < lit.length; k++) {
+      lit[k].classList.toggle('is-active', lit[k] === best && bestD < reach);
+    }
+  }
+
+  var litTick = false;
+  function queueSpotlight() {
+    if (litTick) return;
+    litTick = true;
+    requestAnimationFrame(function () { spotlight(); litTick = false; });
+  }
+  window.addEventListener('scroll', queueSpotlight, { passive: true });
+  window.addEventListener('resize', queueSpotlight);
+  if (touchMQ.addEventListener) touchMQ.addEventListener('change', spotlight);
+  window.addEventListener('load', spotlight);
+  spotlight();
+
   /* ---------- scroll reveal ----------
      IntersectionObserver alone is not safe here: when the page jumps or
      scrolls fast its callback can be missed, and a .rv element that is never

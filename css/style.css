@@ -616,3 +616,21 @@ body.nav-open .hdr{transform:none}
    Everything is one black now. */
 body{background:var(--black)}
 .sec{background:var(--black)}
+
+
+/* ======================================================================
+   POST-DELIVERY 14 — no hover on touch, so cards light up at the centre
+   ====================================================================== */
+
+/* A touch screen never fires :hover, so on mobile the colour, the tags and the
+   play affordance were unreachable - every card stayed grey and bare. The
+   card nearest the middle of the screen now carries .is-active, which mirrors
+   the hover state exactly, so the grid lights up and dims as it scrolls past.
+   Desktop keeps :hover and never gets the class. */
+@media (max-width:900px){
+  .card.is-active .card__media img{transform:scale(1.05);filter:grayscale(0)}
+  .card.is-active .tags{opacity:1;transform:none}
+  .card.is-active .card__play{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  .reel__frame.is-active img{transform:scale(1.03);filter:grayscale(0)}
+  .reel__frame.is-active .card__play{opacity:1}
+}
