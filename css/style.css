@@ -638,3 +638,21 @@ body{background:var(--black)}
 /* Belt and braces for the strip: the track keeps its own height from the
    declared image box, so it cannot collapse while the files decode. */
 .logos__track img{flex:0 0 auto}
+
+
+/* ======================================================================
+   POST-DELIVERY 15 — festival flyer moves into the lightbox
+   ====================================================================== */
+
+.fest{margin-top:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.fest__trigger{display:flex;width:100%;align-items:center;justify-content:space-between;
+  gap:16px;padding:14px var(--pad);cursor:pointer;
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--paper-45);
+  transition:color .3s var(--ease)}
+.fest__trigger:hover,.fest__trigger:focus-visible{color:var(--paper)}
+.fest__mark{height:26px;width:auto;opacity:.55;transition:opacity .3s var(--ease)}
+.fest__trigger:hover .fest__mark,.fest__trigger:focus-visible .fest__mark{opacity:1}
+
+/* the lightbox also carries stills now, which are not 16:9 */
+.lb__box.is-img{aspect-ratio:auto;background:transparent;display:grid;place-items:center}
+.lb__box.is-img img{position:static;width:100%;height:auto;max-height:82vh;object-fit:contain}

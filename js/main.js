@@ -155,8 +155,12 @@
   var lb = document.getElementById('lb'), slot = document.getElementById('lbSlot'),
       lbTitle = document.getElementById('lbTitle'), lbClose = document.getElementById('lbClose');
   function openLb(card) {
-    var yt = card.dataset.yt, file = card.dataset.file;
-    if (yt) {
+    var yt = card.dataset.yt, file = card.dataset.file, img = card.dataset.img;
+    var box = lb.querySelector('.lb__box');
+    box.classList.toggle('is-img', !!img);
+    if (img) {
+      slot.innerHTML = '<img src="' + img + '" alt="' + (card.dataset.title || '') + '">';
+    } else if (yt) {
       slot.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + yt +
         '?autoplay=1&rel=0&modestbranding=1" title="' + (card.dataset.title || '') +
         '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
@@ -174,7 +178,7 @@
   }
   if (lb && grid) {
     document.addEventListener('click', function (e) {
-      var c = e.target.closest('.card[data-yt],.card[data-file]');
+      var c = e.target.closest('[data-yt],[data-file],[data-img]');
       if (c) openLb(c);
     });
     lbClose.addEventListener('click', closeLb);

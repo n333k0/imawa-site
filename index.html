@@ -205,13 +205,19 @@
       </button>
     </div>
 
-    <figure class="fest">
-      <img class="fest__img" src="media/fest-mardelplata.jpg" alt="40º Festival Internacional de Cine de Mar del Plata">
-      <figcaption class="fest__cap">
-        <span>Festival selections</span>
-        <img src="assets/logos/moscu.png" alt="Moscow International Film Festival">
-      </figcaption>
-    </figure>
+    <!-- The Mar del Plata flyer is hidden for now and opens in the lightbox
+         instead, from the festival mark on the right. To show it inline again,
+         restore the <img class="fest__img"> line inside this block. -->
+    <div class="fest">
+      <button class="fest__trigger" type="button"
+              data-img="media/fest-mardelplata.jpg"
+              data-title="40º Festival Internacional de Cine de Mar del Plata"
+              aria-label="View the Mar del Plata festival selection">
+        <span class="fest__label">Festival selections</span>
+        <img class="fest__mark" src="assets/logos/moscu.png" width="161" height="180"
+             alt="Moscow International Film Festival">
+      </button>
+    </div>
   </section>
 
   <div class="logos" aria-label="Selected clients">
