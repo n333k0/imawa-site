@@ -581,3 +581,26 @@ body.nav-open .hdr{transform:none}
    since padding lands on the line box, not the letters. Matching the glyphs
    rather than the box makes the two gaps read as equal. */
 .ftr-btm{margin-top:22px}
+
+
+/* ======================================================================
+   POST-DELIVERY 12 — the closing mark rises out of a mask
+   ====================================================================== */
+
+/* It used to fade in. Now a clipping box hides it and the mark slides up out
+   of that box at its final opacity the whole way, so it is revealed rather
+   than faded up. The mask keeps the mark's layout height, so nothing shifts. */
+.markmask{overflow:hidden;margin-top:clamp(92px,14vw,140px);line-height:0}
+.contact__mark{display:block;width:100%;margin:0;
+  opacity:.26;
+  transform:translateY(102%);
+  transition:transform 1.15s var(--ease)}
+.contact__mark.in{opacity:.26;transform:translateY(0)}
+
+@media (max-width:900px){
+  .markmask{margin-top:clamp(72px,16vw,112px)}
+  .contact__mark{margin:0}
+}
+@media (prefers-reduced-motion:reduce){
+  .contact__mark{transform:none}
+}
