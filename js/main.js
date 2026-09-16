@@ -9,15 +9,22 @@
      viewport; a short track leaves a gap and the logos appear to vanish. */
   var track = document.getElementById('logoTrack');
   if (track) {
-    var LOGOS = [['directv','DIRECTV'],['dgo','DGO'],['dsports','DSPORTS'],
-                 ['torneos','Torneos'],['waiken','Waiken']];
+    // Intrinsic sizes are declared so the track measures correctly before the
+    // images decode. Without them each img starts at zero width, the track
+    // collapses, and translateX(-50%) - which is relative to the track's
+    // current width - jumps as the files land, blanking the strip mid-loop.
+    var LOGOS = [['directv','DIRECTV',942,180],['dgo','DGO',536,180],
+                 ['dsports','DSPORTS',734,180],['torneos','Torneos',453,180],
+                 ['waiken','Waiken',1248,180]];
     var SETS = 4, html = '';
     for (var h = 0; h < 2; h++) {
       for (var s = 0; s < SETS; s++) {
         for (var i = 0; i < LOGOS.length; i++) {
           var first = (h === 0 && s === 0);
-          html += '<img src="assets/logos/' + LOGOS[i][0] + '.png" alt="' +
-                  (first ? LOGOS[i][1] : '') + '"' + (first ? '' : ' aria-hidden="true"') + '>';
+          html += '<img src="assets/logos/' + LOGOS[i][0] + '.png"' +
+                  ' width="' + LOGOS[i][2] + '" height="' + LOGOS[i][3] + '"' +
+                  ' alt="' + (first ? LOGOS[i][1] : '') + '"' +
+                  (first ? '' : ' aria-hidden="true"') + '>';
         }
       }
     }

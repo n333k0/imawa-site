@@ -634,3 +634,7 @@ body{background:var(--black)}
   .reel__frame.is-active img{transform:scale(1.03);filter:grayscale(0)}
   .reel__frame.is-active .card__play{opacity:1}
 }
+
+/* Belt and braces for the strip: the track keeps its own height from the
+   declared image box, so it cannot collapse while the files decode. */
+.logos__track img{flex:0 0 auto}
