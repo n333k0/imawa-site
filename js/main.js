@@ -5,30 +5,77 @@
   var root = document.documentElement;
 
   /* ---------- client logo marquee ----------
-     Built here so the track always holds enough repeats to exceed the
-     viewport; a short track leaves a gap and the logos appear to vanish. */
+     Built here, and sized in pixels rather than percentages.
+
+     The old track held 8 sets and animated to translateX(-50%). That made it
+     8494px wide on desktop and 4369px on mobile - past the ~4096px texture
+     limit a composited layer gets on most GPUs, which is why stretches of it
+     went blank. A percentage target also re-resolves whenever the track is
+     re-measured, so the loop jumped as mobile browsers grew and shrank the
+     viewport under a hiding address bar.
+
+     Now: lay down just enough sets to cover the viewport plus one spare, then
+     slide by exactly one set width in px. Set two lands where set one was, so
+     the loop is seamless, and the track stays far under the texture limit. */
   var track = document.getElementById('logoTrack');
   if (track) {
-    // Intrinsic sizes are declared so the track measures correctly before the
-    // images decode. Without them each img starts at zero width, the track
-    // collapses, and translateX(-50%) - which is relative to the track's
-    // current width - jumps as the files land, blanking the strip mid-loop.
     var LOGOS = [['directv','DIRECTV',942,180],['dgo','DGO',536,180],
                  ['dsports','DSPORTS',734,180],['torneos','Torneos',453,180],
                  ['waiken','Waiken',1248,180]];
-    var SETS = 4, html = '';
-    for (var h = 0; h < 2; h++) {
-      for (var s = 0; s < SETS; s++) {
+    var SPEED = 52;                       // px per second, steady at every width
+
+    function buildSets(n) {
+      var html = '';
+      for (var s = 0; s < n; s++) {
         for (var i = 0; i < LOGOS.length; i++) {
-          var first = (h === 0 && s === 0);
+          var first = (s === 0);
           html += '<img src="assets/logos/' + LOGOS[i][0] + '.png"' +
                   ' width="' + LOGOS[i][2] + '" height="' + LOGOS[i][3] + '"' +
                   ' alt="' + (first ? LOGOS[i][1] : '') + '"' +
                   (first ? '' : ' aria-hidden="true"') + '>';
         }
       }
+      track.innerHTML = html;
     }
-    track.innerHTML = html;
+
+    function setWidth() {
+      var imgs = track.children, w = 0;
+      for (var i = 0; i < LOGOS.length && i < imgs.length; i++) {
+        var cs = getComputedStyle(imgs[i]);
+        w += imgs[i].getBoundingClientRect().width +
+             parseFloat(cs.marginLeft) + parseFloat(cs.marginRight);
+      }
+      return w;
+    }
+
+    var built = 0, shift = 0;
+
+    function layout() {
+      if (!built) { buildSets(2); built = 2; }
+      var sw = setWidth();
+      if (!sw) return;
+      var need = Math.max(2, Math.ceil(innerWidth / sw) + 1);
+      // Only touch the DOM when something actually changed. Rebuilding
+      // innerHTML tears down and recreates every img, which restarts the
+      // animation and re-decodes the files - and mobile fires resize
+      // constantly as the address bar hides, so an unconditional rebuild
+      // made the strip stutter and look like it was still loading.
+      if (need !== built) { buildSets(need); built = need; }
+      if (Math.abs(sw - shift) > 0.5) {
+        shift = sw;
+        track.style.setProperty('--mq-shift', sw + 'px');
+        track.style.setProperty('--mq-dur', (sw / SPEED) + 's');
+      }
+    }
+
+    layout();
+    window.addEventListener('load', layout);
+    var mqW = innerWidth, mqT;
+    window.addEventListener('resize', function () {
+      if (innerWidth === mqW) return;      // height-only change: address bar
+      mqW = innerWidth;
+      clearTimeout(mqT); mqT = setTimeout(layout, 200);
+    });
   }
 
   /* ---------- mobile nav ---------- */

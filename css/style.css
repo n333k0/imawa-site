@@ -682,3 +682,26 @@ body{background:var(--black)}
   .lb__title{font-size:10px;letter-spacing:.12em}
   .lb__box.is-img img{max-height:70vh}
 }
+
+
+/* ======================================================================
+   POST-DELIVERY 17 — marquee slides by pixels, not a percentage
+   ====================================================================== */
+
+/* Travel is exactly one set width, handed in from JS, so the loop never
+   re-resolves against a changing track and the track stays small. */
+@keyframes logoslide{from{transform:translateX(0)}
+                     to{transform:translateX(calc(var(--mq-shift,50%) * -1))}}
+.logos__track{animation:logoslide var(--mq-dur,20s) linear infinite}
+
+/* Pause on hover only where hovering is real. On a touch screen :hover latches
+   after a tap and would leave the strip stopped. */
+.logos:hover .logos__track{animation-play-state:running}
+@media (hover:hover){
+  .logos:hover .logos__track{animation-play-state:paused}
+}
+
+
+/* No will-change here: it pins a composited layer for the life of the page,
+   and this strip is exactly where blank stretches were showing. The animation
+   composites fine without it now that the track is small. */
