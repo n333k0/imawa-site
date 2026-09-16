@@ -656,3 +656,29 @@ body{background:var(--black)}
 /* the lightbox also carries stills now, which are not 16:9 */
 .lb__box.is-img{aspect-ratio:auto;background:transparent;display:grid;place-items:center}
 .lb__box.is-img img{position:static;width:100%;height:auto;max-height:82vh;object-fit:contain}
+
+
+/* ======================================================================
+   POST-DELIVERY 16 — the lightbox caption never sits on the image
+   ====================================================================== */
+
+/* The caption was absolutely positioned at top:-34px, which only holds for a
+   single line: a second line grew downwards and landed on the picture. It is
+   in normal flow now, in a row above the frame with the close button, so any
+   number of lines pushes the frame down instead of covering it. */
+.lb.open{display:grid;place-items:center}
+.lb__inner{width:min(96vw,1360px);display:flex;flex-direction:column;gap:10px}
+.lb__head{display:flex;align-items:flex-start;gap:14px;justify-content:space-between}
+.lb__title{position:static;margin:0;flex:1;min-width:0;
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  line-height:1.5;color:var(--paper-45)}
+.lb__close{position:static;flex:0 0 auto;width:38px;height:38px;margin-top:-8px}
+.lb__box{width:100%;aspect-ratio:16/9;background:#000;position:relative}
+.lb__box.is-img{aspect-ratio:auto;background:transparent;display:grid;place-items:center}
+.lb__box.is-img img{position:static;width:100%;height:auto;max-height:76vh;object-fit:contain}
+
+@media (max-width:900px){
+  .lb{padding:4vmin}
+  .lb__title{font-size:10px;letter-spacing:.12em}
+  .lb__box.is-img img{max-height:70vh}
+}
