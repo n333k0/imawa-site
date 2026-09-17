@@ -233,6 +233,44 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { closeLb(); closeNav(); } });
   }
 
+  /* ---------- the featured film plays in place ----------
+     Muted autoplay is the only kind browsers allow, and the embed is only
+     created once the block is on screen and destroyed when it leaves, so the
+     page costs nothing until the film is actually wanted. It is layered over
+     the poster with pointer-events:none, leaving the frame a single click
+     target that still opens the film with sound. Skipped under Reduce Motion,
+     where the poster simply stays. */
+  var stage = document.querySelector('.reel__frame');
+  if (stage && stage.dataset.yt && !reduce && 'IntersectionObserver' in window) {
+    var film = null, id = stage.dataset.yt;
+
+    function mountFilm() {
+      if (film) return;
+      film = document.createElement('iframe');
+      film.className = 'reel__video';
+      film.title = (stage.dataset.title || 'Featured film') + ' — preview';
+      film.setAttribute('tabindex', '-1');
+      film.setAttribute('aria-hidden', 'true');
+      film.allow = 'autoplay; encrypted-media; picture-in-picture';
+      film.src = 'https://www.youtube-nocookie.com/embed/' + id +
+        '?autoplay=1&mute=1&loop=1&playlist=' + id +
+        '&controls=0&modestbranding=1&rel=0&playsinline=1' +
+        '&disablekb=1&iv_load_policy=3&fs=0';
+      stage.appendChild(film);
+      requestAnimationFrame(function () { if (film) film.classList.add('in'); });
+    }
+
+    function unmountFilm() {
+      if (!film) return;
+      film.remove();              // removing it is what stops playback
+      film = null;
+    }
+
+    new IntersectionObserver(function (en) {
+      en.forEach(function (x) { x.isIntersecting ? mountFilm() : unmountFilm(); });
+    }, { threshold: 0.35 }).observe(stage);
+  }
+
   /* ---------- touch: light the card crossing the middle ----------
      There is no hover on a phone, so the colour, tags and play affordance
      would never appear. The card closest to the centre of the viewport gets

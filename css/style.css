@@ -705,3 +705,56 @@ body{background:var(--black)}
 /* No will-change here: it pins a composited layer for the life of the page,
    and this strip is exactly where blank stretches were showing. The animation
    composites fine without it now that the track is small. */
+
+/* ======================================================================
+   POST-DELIVERY 18 — floating nav, descenders, reduced motion
+   ====================================================================== */
+
+/* Seamless: no rule and no panel, so the wordmark and menu float. */
+.hdr{border-bottom:0;background:transparent;backdrop-filter:none}
+
+/* A .line box is exactly 1em tall, so with line-height:1 the descenders
+   (g, y, p, q, j) fall outside it and overflow:hidden clips them - the g in
+   "original" on About. Grow the clip box downwards and cancel it with an equal
+   negative margin: the descender shows and the leading does not move. */
+.line{padding-bottom:.22em;margin-bottom:-.22em}
+
+/* The curtain was two full viewports of scroll. Shorter. */
+.intro{height:160svh}
+
+/* With Reduce Motion on, the intro was broken rather than simplified:
+   .intro{height:auto} sat in a reduced-motion block but a later top-level
+   .intro{height:200svh} outranked it - media queries add no specificity, so
+   source order decided - while .intro__inner{position:static} did win. The
+   result was a full-height section with its content collapsed at the top and a
+   viewport of empty black below. The headline never appeared either, since
+   .intro__head{opacity:0} is only undone by the script, which this mode skips.
+   These come last, so they hold. */
+@media (prefers-reduced-motion:reduce){
+  .intro{height:auto}
+  .intro__inner{position:static;height:auto;padding-block:clamp(56px,11vh,110px)}
+  .intro__swap{display:block;min-height:0;width:auto}
+  .intro__swap > *{grid-area:auto}
+  .intro__logo{margin:0 auto;transform:none;opacity:1}
+  .intro__head{opacity:1;transform:none;text-align:center;
+    margin-top:clamp(18px,3vw,32px)}
+  .contact__mark{opacity:.26;transform:none}
+  .scrolldown{opacity:1}
+}
+
+/* ======================================================================
+   POST-DELIVERY 19 — the featured film plays in place
+   ====================================================================== */
+
+/* Mounted only once the block is actually on screen and torn down when it
+   leaves, so nothing is fetched until it is wanted. It sits over the poster
+   and ignores pointer events, so the frame stays a single click target that
+   opens the film with sound. */
+.reel__video{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:1;
+  pointer-events:none;opacity:0;transition:opacity .9s var(--ease)}
+.reel__video.in{opacity:1}
+.reel__frame .card__play{z-index:2}
+.reel__frame .reel__sound{position:absolute;right:16px;bottom:14px;z-index:2;
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--paper-45);
+  opacity:0;transition:opacity .4s var(--ease);pointer-events:none}
+.reel__frame:hover .reel__sound{opacity:1}
