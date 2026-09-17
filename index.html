@@ -43,11 +43,17 @@
 
 
   <section class="reel" aria-label="Featured work">
-    <button class="reel__frame card" type="button" data-yt="ZChYJSojy2I"
-            data-title="DSports Messi" aria-label="Play DSports Messi">
-      <img src="media/thumbs/messi.jpg" alt="DSports Messi" width="1600" height="900">
-      <span class="card__play" aria-hidden="true"></span>
-    </button>
+    <div class="reel__stage">
+      <button class="reel__frame card" type="button" data-yt="ZChYJSojy2I"
+              data-title="DSports Messi" aria-label="Play DSports Messi">
+        <img src="media/thumbs/messi.jpg" alt="DSports Messi" width="1600" height="900">
+        <span class="card__play" aria-hidden="true"></span>
+      </button>
+      <button class="reel__mute" id="reelMute" type="button"
+              aria-pressed="false" aria-label="Turn sound on">
+        <i aria-hidden="true"></i><span>Sound</span>
+      </button>
+    </div>
     <div class="wrap">
       <div class="reel__cap"><span>Featured — DSports Messi</span><span>TV Broadcast · YouTube</span></div>
     </div>

@@ -876,3 +876,26 @@ body{background:var(--black)}
 /* The player API swaps the element it is given for its own iframe, so the
    positioned box is now a wrapper and the iframe simply fills it. */
 .reel__video iframe{display:block;width:100%;height:100%;border:0}
+
+/* ======================================================================
+   POST-DELIVERY 25 — sound is a control, not a one-way switch
+   ====================================================================== */
+
+/* Sound could be turned on but never off. This is a real button and a sibling
+   of the frame, not a child of it, so a tap can never fall through to the
+   handler that opens the film - which is what kept happening before. */
+.reel__stage{position:relative}
+.reel__mute{position:absolute;right:clamp(14px,2vw,22px);bottom:clamp(14px,2vw,22px);
+  z-index:3;display:inline-flex;align-items:center;gap:7px;
+  padding:8px 14px;border:1px solid var(--line-2);border-radius:999px;
+  background:rgba(0,0,0,.5);backdrop-filter:blur(6px);
+  color:var(--paper-45);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  cursor:pointer;transition:color .3s var(--ease),border-color .3s var(--ease)}
+.reel__mute:hover{color:var(--paper);border-color:var(--paper)}
+.reel__mute i{position:relative;width:9px;height:9px;
+  border-left:6px solid currentColor;
+  border-top:5px solid transparent;border-bottom:5px solid transparent}
+.reel__mute i::after{content:"";position:absolute;left:-7px;top:50%;
+  width:13px;height:1px;background:currentColor;transform:translateY(-50%) rotate(-45deg)}
+.reel__mute.is-on{color:var(--paper)}
+.reel__mute.is-on i::after{display:none}

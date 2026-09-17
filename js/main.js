@@ -364,10 +364,33 @@
       }
     };
 
+    var muteBtn = document.getElementById('reelMute');
+
+    function paint() {
+      if (!muteBtn) return;
+      muteBtn.setAttribute('aria-pressed', wantSound ? 'true' : 'false');
+      muteBtn.setAttribute('aria-label', wantSound ? 'Turn sound off' : 'Turn sound on');
+      muteBtn.classList.toggle('is-on', wantSound);
+      muteBtn.querySelector('span').textContent = wantSound ? 'Sound' : 'Muted';
+    }
+
     function enableSound() {
       wantSound = true;
       if (player && !paused) applySound(player);
+      paint();
     }
+
+    /* Its own button, a sibling of the frame rather than inside it, so a tap
+       here can never reach the handler that opens the film. */
+    if (muteBtn) {
+      muteBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        wantSound = !wantSound;
+        if (player) { wantSound ? applySound(player) : player.mute(); }
+        paint();
+      });
+    }
+    paint();
     ['pointerdown', 'keydown', 'touchend'].forEach(function (ev) {
       window.addEventListener(ev, enableSound, { passive: true });
     });
