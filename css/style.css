@@ -914,3 +914,19 @@ body{background:var(--black)}
 
 /* Sound control centred under the film rather than tucked to the right. */
 .reel__mute{left:50%;right:auto;transform:translateX(-50%)}
+
+/* ======================================================================
+   POST-DELIVERY 27 — peek without moving the content
+   ====================================================================== */
+
+/* Shortening the panel was the wrong lever: the content centres inside it, so
+   trimming its height took the space off the top as well and pushed everything
+   up. The panel goes back to the full screen, which is what keeps the block
+   centred, and the film is pulled up into the empty space underneath instead.
+   Measured: the content ends at 69% of the screen, so a 25% rise clears the
+   scroll cue with room to spare. The panel is a positioned, stacked element,
+   so the film needs to be lifted above it to be seen at all. */
+@media (max-width:900px){
+  .intro__inner{height:100svh}
+  .reel{position:relative;z-index:2;margin-top:-25svh}
+}

@@ -321,19 +321,31 @@
               var f = e.target.getIframe();
               f.setAttribute('tabindex', '-1');
               f.setAttribute('aria-hidden', 'true');
+              /* Start muted and only that. Unmuting here is what left phones
+                 stuck on the YouTube poster: mobile refuses to begin playback
+                 on an unmuted embed, so the play call was being rejected and
+                 nothing ever started. Sound waits for playback to be running,
+                 below. */
+              e.target.mute();
               e.target.playVideo();
-              if (soundAllowed()) applySound(e.target);
               host.classList.add('in');
               mounting = false;
             },
             onStateChange: function (e) {
-              /* If unmuting is what stopped it, fall back to muted rather than
-                 leaving a silent frozen frame - the worst of both. */
-              if (e.data === 2 && !paused && player && player.isMuted &&
-                  !player.isMuted()) {
+              if (paused || !player) return;
+              // 1 = playing: now that it is actually running, sound is safe.
+              if (e.data === 1 && soundAllowed() &&
+                  player.isMuted && player.isMuted()) {
+                applySound(player);
+              }
+              // 2 = paused. If unmuting is what stopped it, go back to muted
+              // and keep playing rather than leave a silent frozen frame.
+              if (e.data === 2 && player.isMuted && !player.isMuted()) {
                 player.mute();
                 player.playVideo();
               }
+              // -1 unstarted / 5 cued: autoplay never took. Nudge it.
+              if (e.data === -1 || e.data === 5) player.playVideo();
             }
           }
         });
