@@ -339,7 +339,14 @@
     ['pointerdown', 'keydown', 'touchend'].forEach(function (ev) {
       window.addEventListener(ev, enableSound, { once: true, passive: true });
     });
-    if (hint) hint.addEventListener('click', enableSound);
+    if (hint) hint.addEventListener('click', function (e) {
+      // Stop it here as well as in the document handler: this control lives
+      // inside the frame button, and the click must switch sound on without
+      // also opening the film.
+      e.preventDefault();
+      e.stopPropagation();
+      enableSound();
+    });
 
     new IntersectionObserver(function (en) {
       en.forEach(function (x) { x.isIntersecting ? mountFilm() : unmountFilm(); });
