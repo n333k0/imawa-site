@@ -911,3 +911,6 @@ body{background:var(--black)}
 @media (max-width:900px){
   .intro__inner{height:70svh}
 }
+
+/* Sound control centred under the film rather than tucked to the right. */
+.reel__mute{left:50%;right:auto;transform:translateX(-50%)}
