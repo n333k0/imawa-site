@@ -240,6 +240,9 @@
   }
   if (lb && grid) {
     document.addEventListener('click', function (e) {
+      // The sound control sits inside the frame button, so catch it first:
+      // tapping it should switch audio on, not open the film in the lightbox.
+      if (e.target.closest('.reel__sound')) return;
       var c = e.target.closest('[data-yt],[data-file],[data-img]');
       if (c) openLb(c);
     });
@@ -304,7 +307,7 @@
 
     function applySound() {
       trySound();
-      if (hint) hint.textContent = 'Sound on';
+      stage.classList.add('has-sound');
     }
 
     /* Whether sound is allowed to start on its own.
@@ -334,6 +337,7 @@
     ['pointerdown', 'keydown', 'touchend'].forEach(function (ev) {
       window.addEventListener(ev, enableSound, { once: true, passive: true });
     });
+    if (hint) hint.addEventListener('click', enableSound);
 
     new IntersectionObserver(function (en) {
       en.forEach(function (x) { x.isIntersecting ? mountFilm() : unmountFilm(); });
