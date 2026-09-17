@@ -957,3 +957,25 @@ body{background:var(--black)}
 
 /* Same size as the play button it sits beside, not the smaller grid one. */
 .reel__mute{width:clamp(58px,6vw,92px)}
+
+/* ======================================================================
+   POST-DELIVERY 29 — desktop centring, smaller control, none on phones
+   ====================================================================== */
+
+/* The panel was only put back to full height inside the phone breakpoint, so
+   desktop kept centring its content inside 82svh and sat high. Same treatment
+   here: full-height panel to hold the block centred, and the film lifted into
+   the empty space below it instead. */
+.intro__inner{height:100svh}
+.reel{position:relative;z-index:2;margin-top:-18svh}
+
+/* Much smaller. The stroke and the soft ground stay - only the scale changes. */
+.reel__mute{width:clamp(30px,2.6vw,38px)}
+.reel__mute svg{width:52%;height:52%;stroke-width:2}
+.reel__mute .ico-body{stroke-width:1.4}
+
+@media (max-width:900px){
+  /* Sound starts by itself on phones, so the control only appears in the case
+     where it did not - and vanishes the moment audio is running. */
+  .reel__mute.is-on{display:none}
+}

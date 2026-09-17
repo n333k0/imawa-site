@@ -288,6 +288,7 @@
        includes the click that opened the film in the lightbox - which is why
        it comes back with sound afterwards. */
     function soundAllowed() {
+      if (userChose) return wantSound;          // an explicit choice wins
       return wantSound ||
         !!(navigator.userActivation && navigator.userActivation.hasBeenActive);
     }
@@ -337,6 +338,10 @@
               if (e.data === 1 && soundAllowed() &&
                   player.isMuted && player.isMuted()) {
                 applySound(player);
+                // Record it, so the control can reflect reality - and on
+                // phones, where sound does start on its own, disappear.
+                wantSound = true;
+                paint();
               }
               // 2 = paused. If unmuting is what stopped it, go back to muted
               // and keep playing rather than leave a silent frozen frame.
