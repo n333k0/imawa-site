@@ -109,7 +109,10 @@
   var flip = null;
 
   function measure() {
-    if (!introLogo || reduce) return;
+    if (!introLogo) return;
+    // Reduce Motion keeps the sequence but drops the travel and the scaling:
+    // an identity transform, so only the cross-fade plays.
+    if (reduce) { flip = { dy: 0, s: 1 }; return; }
     introLogo.style.transform = '';
     var a = introLogo.getBoundingClientRect();
     if (!a.height) return;
@@ -152,7 +155,7 @@
     if (hdr) hdr.classList.toggle('is-top', !barIn);
   }
 
-  if (intro && introLogo && hdrLogo && !reduce) {
+  if (intro && introLogo && hdrLogo) {
     root.style.setProperty('--logo-op', 0);
     var imgs = [introLogo, hdrLogo];
     var pending = imgs.filter(function (i) { return !i.complete; }).length;

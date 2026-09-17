@@ -769,3 +769,27 @@ body{background:var(--black)}
 .intro__inner{height:82svh}
 .reel__sound{opacity:0}
 .reel__frame:hover .reel__sound{opacity:1}
+
+/* ======================================================================
+   POST-DELIVERY 21 — Reduce Motion keeps the piece, loses the movement
+   ====================================================================== */
+
+/* The previous pass unstacked the intro entirely under Reduce Motion, so the
+   mark, the headline and the subheadline all landed at once with no sequence -
+   which is what the client was seeing and reporting as "no animation".
+   Reducing motion should not mean removing the work. The structure and the
+   order stay: the panel is still pinned and the mark still hands over to the
+   headline in the same spot. What goes is the part the preference is actually
+   about - the large travel and the scaling. They cross-fade in place instead,
+   driven by scroll position, so nothing moves on its own. */
+@media (prefers-reduced-motion:reduce){
+  .intro{height:160svh}
+  .intro__inner{position:sticky;top:0;height:82svh;
+    padding-block:0;justify-content:center}
+  .intro__swap{display:grid;min-height:clamp(120px,22vh,230px);width:100%}
+  .intro__swap > *{grid-area:1/1}
+  .intro__logo{margin:0;transform:none}
+  .intro__head{text-align:center;margin-top:0}
+  .scrolldown{opacity:1}
+  .contact__mark{transform:none;opacity:.26}
+}
