@@ -209,6 +209,9 @@
   var lb = document.getElementById('lb'), slot = document.getElementById('lbSlot'),
       lbTitle = document.getElementById('lbTitle'), lbClose = document.getElementById('lbClose');
   function openLb(card) {
+    // Silence the inline film first, or its audio plays under the one that is
+    // about to open. filmCtl is a var, so it is in scope from further down.
+    if (filmCtl) filmCtl.pause();
     var yt = card.dataset.yt, file = card.dataset.file, img = card.dataset.img;
     var box = lb.querySelector('.lb__box');
     box.classList.toggle('is-img', !!img);
@@ -229,6 +232,7 @@
     if (!lb.classList.contains('open')) return;
     slot.innerHTML = '';                              // clearing stops playback
     lb.classList.remove('open'); document.body.classList.remove('lb-open');
+    if (filmCtl) filmCtl.resume();                    // hand the room back
   }
   if (lb && grid) {
     document.addEventListener('click', function (e) {
@@ -247,6 +251,7 @@
      the poster with pointer-events:none, leaving the frame a single click
      target that still opens the film with sound. Skipped under Reduce Motion,
      where the poster simply stays. */
+  var filmCtl = null;
   var stage = document.querySelector('.reel__frame');
   if (stage && stage.dataset.yt && !reduce && 'IntersectionObserver' in window) {
     var film = null, id = stage.dataset.yt;
@@ -265,7 +270,9 @@
         '&disablekb=1&iv_load_policy=3&fs=0&enablejsapi=1';
       stage.appendChild(film);
       requestAnimationFrame(function () { if (film) film.classList.add('in'); });
-      if (wantSound) film.addEventListener('load', applySound);
+      film.addEventListener('load', function () {
+        if (wantSound || soundAllowed()) applySound();
+      });
     }
 
     function unmountFilm() {
@@ -282,17 +289,39 @@
        re-enters rather than resetting to muted. */
     var wantSound = false;
     var hint = stage.querySelector('.reel__sound');
+    var paused = false;
 
     function tell(f) {
       if (!film || !film.contentWindow) return;
       film.contentWindow.postMessage(
         JSON.stringify({ event: 'command', func: f, args: [] }), '*');
     }
+    function trySound() { tell('unMute'); tell('playVideo'); }
+
     function applySound() {
-      tell('unMute');
-      tell('playVideo');
+      trySound();
       if (hint) hint.textContent = 'Sound on';
     }
+
+    /* Whether sound is allowed to start on its own.
+       Unmuting without the browser's consent does not just fail quietly - it
+       pauses the video, which would be worse than muted. This asks first: if
+       the visitor has already interacted with the page at any point, sound is
+       permitted and the film opens with it. Otherwise it stays muted and the
+       first click, tap or key switches it on. */
+    function soundAllowed() {
+      return !!(navigator.userActivation && navigator.userActivation.hasBeenActive);
+    }
+
+    filmCtl = {
+      pause: function () { paused = true; tell('pauseVideo'); },
+      resume: function () {
+        if (!paused) return;
+        paused = false;
+        tell('playVideo');
+        if (wantSound || soundAllowed()) trySound();
+      }
+    };
     function enableSound() {
       if (wantSound) return;
       wantSound = true;
