@@ -867,3 +867,8 @@ body{background:var(--black)}
   transition:opacity .4s var(--ease),border-color .3s var(--ease)}
 .reel__frame .reel__sound:hover{border-color:var(--paper)}
 .reel__frame.has-sound .reel__sound{opacity:0;pointer-events:none}
+
+/* The sound pill is gone: sound switches on by itself at the visitor's first
+   interaction anywhere on the page, so a separate control was only ever an
+   extra thing to mis-click. Kept hidden in case the markup lingers anywhere. */
+.reel__sound{display:none}

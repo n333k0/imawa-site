@@ -242,9 +242,6 @@
   }
   if (lb && grid) {
     document.addEventListener('click', function (e) {
-      // The sound control sits inside the frame button, so catch it first:
-      // tapping it should switch audio on, not open the film in the lightbox.
-      if (e.target.closest('.reel__sound')) return;
       var c = e.target.closest('[data-yt],[data-file],[data-img]');
       if (c) openLb(c);
     });
@@ -297,7 +294,6 @@
        The state is remembered, so the film comes back with sound each time it
        re-enters rather than resetting to muted. */
     var wantSound = false;
-    var hint = stage.querySelector('.reel__sound');
     var paused = false;
 
     function tell(f) {
@@ -307,10 +303,7 @@
     }
     function trySound() { tell('unMute'); tell('playVideo'); }
 
-    function applySound() {
-      trySound();
-      stage.classList.add('has-sound');
-    }
+    function applySound() { trySound(); }
 
     /* Whether sound is allowed to start on its own.
        Unmuting without the browser's consent does not just fail quietly - it
@@ -332,21 +325,17 @@
       }
     };
     function enableSound() {
-      if (wantSound) return;
       wantSound = true;
       applySound();
     }
+    /* Any interaction anywhere on the page turns sound on - a click, a tap,
+       a key. Browsers accept that as consent, and it is almost always spent
+       before anyone reaches the film. Not once-only: if the first one lands
+       before the film is mounted, the next still applies it. */
     ['pointerdown', 'keydown', 'touchend'].forEach(function (ev) {
-      window.addEventListener(ev, enableSound, { once: true, passive: true });
+      window.addEventListener(ev, enableSound, { passive: true });
     });
-    if (hint) hint.addEventListener('click', function (e) {
-      // Stop it here as well as in the document handler: this control lives
-      // inside the frame button, and the click must switch sound on without
-      // also opening the film.
-      e.preventDefault();
-      e.stopPropagation();
-      enableSound();
-    });
+
 
     new IntersectionObserver(function (en) {
       en.forEach(function (x) { x.isIntersecting ? mountFilm() : unmountFilm(); });
