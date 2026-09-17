@@ -872,3 +872,7 @@ body{background:var(--black)}
    interaction anywhere on the page, so a separate control was only ever an
    extra thing to mis-click. Kept hidden in case the markup lingers anywhere. */
 .reel__sound{display:none}
+
+/* The player API swaps the element it is given for its own iframe, so the
+   positioned box is now a wrapper and the iframe simply fills it. */
+.reel__video iframe{display:block;width:100%;height:100%;border:0}

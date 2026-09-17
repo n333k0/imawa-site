@@ -260,90 +260,125 @@
   var filmCtl = null;
   var stage = document.querySelector('.reel__frame');
   if (stage && stage.dataset.yt && !reduce && 'IntersectionObserver' in window) {
-    var film = null, id = stage.dataset.yt;
+    var player = null, mounting = false, paused = false, wantSound = false;
+    var id = stage.dataset.yt, apiReady = null;
+
+    /* Commands used to be posted straight at the iframe the moment it loaded.
+       The iframe's load event fires well before the player inside it starts
+       listening, so every unMute went nowhere and the film stayed silent no
+       matter what had been clicked. Going through the real player API means a
+       command is only ever sent after onReady, when it actually takes. */
+    function loadAPI() {
+      if (apiReady) return apiReady;
+      apiReady = new Promise(function (done) {
+        if (window.YT && window.YT.Player) { done(); return; }
+        var prev = window.onYouTubeIframeAPIReady;
+        window.onYouTubeIframeAPIReady = function () {
+          if (typeof prev === 'function') prev();
+          done();
+        };
+        var s = document.createElement('script');
+        s.src = 'https://www.youtube.com/iframe_api';
+        document.head.appendChild(s);
+      });
+      return apiReady;
+    }
+
+    /* Audio needs the browser's consent, which any interaction grants. That
+       includes the click that opened the film in the lightbox - which is why
+       it comes back with sound afterwards. */
+    function soundAllowed() {
+      return wantSound ||
+        !!(navigator.userActivation && navigator.userActivation.hasBeenActive);
+    }
+    function applySound(p) {
+      if (!p || !p.unMute) return;
+      p.unMute();
+      p.setVolume(100);
+    }
 
     function mountFilm() {
-      if (film) return;
-      film = document.createElement('iframe');
-      film.className = 'reel__video';
-      film.title = (stage.dataset.title || 'Featured film') + ' — preview';
-      film.setAttribute('tabindex', '-1');
-      film.setAttribute('aria-hidden', 'true');
-      film.allow = 'autoplay; encrypted-media; picture-in-picture';
-      film.src = 'https://www.youtube-nocookie.com/embed/' + id +
-        '?autoplay=1&mute=1&loop=1&playlist=' + id +
-        '&controls=0&modestbranding=1&rel=0&playsinline=1' +
-        '&disablekb=1&iv_load_policy=3&fs=0&enablejsapi=1';
-      stage.appendChild(film);
-      requestAnimationFrame(function () { if (film) film.classList.add('in'); });
-      film.addEventListener('load', function () {
-        if (wantSound || soundAllowed()) applySound();
+      if (player || mounting) return;
+      mounting = true;
+      var host = document.createElement('div');
+      host.className = 'reel__video';
+      var slot = document.createElement('div');
+      host.appendChild(slot);
+      stage.appendChild(host);
+
+      loadAPI().then(function () {
+        if (!host.isConnected) { mounting = false; host.remove(); return; }
+        player = new YT.Player(slot, {
+          videoId: id,
+          host: 'https://www.youtube-nocookie.com',
+          playerVars: {
+            autoplay: 1, mute: 1, loop: 1, playlist: id, controls: 0,
+            modestbranding: 1, rel: 0, playsinline: 1, disablekb: 1,
+            iv_load_policy: 3, fs: 0, origin: location.origin
+          },
+          events: {
+            onReady: function (e) {
+              var f = e.target.getIframe();
+              f.setAttribute('tabindex', '-1');
+              f.setAttribute('aria-hidden', 'true');
+              e.target.playVideo();
+              if (soundAllowed()) applySound(e.target);
+              host.classList.add('in');
+              mounting = false;
+            },
+            onStateChange: function (e) {
+              /* If unmuting is what stopped it, fall back to muted rather than
+                 leaving a silent frozen frame - the worst of both. */
+              if (e.data === 2 && !paused && player && player.isMuted &&
+                  !player.isMuted()) {
+                player.mute();
+                player.playVideo();
+              }
+            }
+          }
+        });
       });
     }
 
     function unmountFilm() {
-      if (!film) return;
-      film.remove();              // removing it is what stops playback
-      film = null;
-    }
-
-    /* Sound. Browsers only allow autoplay while muted, so the film always
-       starts muted and is unmuted the moment the visitor first interacts with
-       the page - a click, a tap or a key, which is what counts as a gesture.
-       Scrolling alone does not qualify, so the hint stays until it happens.
-       The state is remembered, so the film comes back with sound each time it
-       re-enters rather than resetting to muted. */
-    var wantSound = false;
-    var paused = false;
-
-    function tell(f) {
-      if (!film || !film.contentWindow) return;
-      film.contentWindow.postMessage(
-        JSON.stringify({ event: 'command', func: f, args: [] }), '*');
-    }
-    function trySound() { tell('unMute'); tell('playVideo'); }
-
-    function applySound() { trySound(); }
-
-    /* Whether sound is allowed to start on its own.
-       Unmuting without the browser's consent does not just fail quietly - it
-       pauses the video, which would be worse than muted. This asks first: if
-       the visitor has already interacted with the page at any point, sound is
-       permitted and the film opens with it. Otherwise it stays muted and the
-       first click, tap or key switches it on. */
-    function soundAllowed() {
-      return !!(navigator.userActivation && navigator.userActivation.hasBeenActive);
+      mounting = false;
+      if (player) {
+        try { player.destroy(); } catch (err) {}
+        player = null;
+      }
+      var leftover = stage.querySelector('.reel__video');
+      if (leftover) leftover.remove();
     }
 
     filmCtl = {
-      pause: function () { paused = true; tell('pauseVideo'); },
+      pause: function () {
+        paused = true;
+        if (player && player.pauseVideo) player.pauseVideo();
+      },
       resume: function () {
         if (!paused) return;
         paused = false;
-        tell('playVideo');
-        if (wantSound || soundAllowed()) trySound();
+        if (!player || !player.playVideo) return;
+        player.playVideo();
+        if (soundAllowed()) applySound(player);
       }
     };
+
     function enableSound() {
       wantSound = true;
-      applySound();
+      if (player && !paused) applySound(player);
     }
-    /* Any interaction anywhere on the page turns sound on - a click, a tap,
-       a key. Browsers accept that as consent, and it is almost always spent
-       before anyone reaches the film. Not once-only: if the first one lands
-       before the film is mounted, the next still applies it. */
     ['pointerdown', 'keydown', 'touchend'].forEach(function (ev) {
       window.addEventListener(ev, enableSound, { passive: true });
     });
 
-
     new IntersectionObserver(function (en) {
       en.forEach(function (x) { x.isIntersecting ? mountFilm() : unmountFilm(); });
-      // A low threshold on purpose: only about 18svh of the film shows at the
-      // end of the intro, roughly a sixth of it, so at 0.35 it would sit there
-      // visible and not playing until you scrolled further.
+      // Low on purpose: only about 18svh of the film shows at the end of the
+      // intro, so at 0.35 it would sit visible and not playing.
     }, { threshold: 0.1 }).observe(stage);
   }
+
 
   /* ---------- touch: light the card crossing the middle ----------
      There is no hover on a phone, so the colour, tags and play affordance
