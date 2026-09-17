@@ -758,3 +758,14 @@ body{background:var(--black)}
   font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--paper-45);
   opacity:0;transition:opacity .4s var(--ease);pointer-events:none}
 .reel__frame:hover .reel__sound{opacity:1}
+
+/* ======================================================================
+   POST-DELIVERY 20 — the film peeks while the headline lands
+   ====================================================================== */
+
+/* The pinned panel is shorter than the screen, so the section beneath it -
+   the featured film - is already showing along the bottom by the time the
+   headline and the bar arrive. 82svh puts its top edge where it was marked. */
+.intro__inner{height:82svh}
+.reel__sound{opacity:0}
+.reel__frame:hover .reel__sound{opacity:1}

@@ -122,7 +122,11 @@
 
   function onScroll() {
     if (!intro || !flip) return;
-    var span = intro.offsetHeight - innerHeight;
+    // Measured against the pinned panel, not the window: the panel is shorter
+    // than the viewport now, so the film is already peeking underneath by the
+    // time the headline lands.
+    var inner = intro.firstElementChild;
+    var span = intro.offsetHeight - (inner ? inner.offsetHeight : innerHeight);
     var p = span > 0 ? Math.min(1, Math.max(0, scrollY / span)) : 1;
     function seg(a, b) { return Math.max(0, Math.min(1, (p - a) / (b - a))); }
     function smooth(x) { return x * x * (3 - 2 * x); }
@@ -255,9 +259,10 @@
       film.src = 'https://www.youtube-nocookie.com/embed/' + id +
         '?autoplay=1&mute=1&loop=1&playlist=' + id +
         '&controls=0&modestbranding=1&rel=0&playsinline=1' +
-        '&disablekb=1&iv_load_policy=3&fs=0';
+        '&disablekb=1&iv_load_policy=3&fs=0&enablejsapi=1';
       stage.appendChild(film);
       requestAnimationFrame(function () { if (film) film.classList.add('in'); });
+      if (wantSound) film.addEventListener('load', applySound);
     }
 
     function unmountFilm() {
@@ -265,6 +270,34 @@
       film.remove();              // removing it is what stops playback
       film = null;
     }
+
+    /* Sound. Browsers only allow autoplay while muted, so the film always
+       starts muted and is unmuted the moment the visitor first interacts with
+       the page - a click, a tap or a key, which is what counts as a gesture.
+       Scrolling alone does not qualify, so the hint stays until it happens.
+       The state is remembered, so the film comes back with sound each time it
+       re-enters rather than resetting to muted. */
+    var wantSound = false;
+    var hint = stage.querySelector('.reel__sound');
+
+    function tell(f) {
+      if (!film || !film.contentWindow) return;
+      film.contentWindow.postMessage(
+        JSON.stringify({ event: 'command', func: f, args: [] }), '*');
+    }
+    function applySound() {
+      tell('unMute');
+      tell('playVideo');
+      if (hint) hint.textContent = 'Sound on';
+    }
+    function enableSound() {
+      if (wantSound) return;
+      wantSound = true;
+      applySound();
+    }
+    ['pointerdown', 'keydown', 'touchend'].forEach(function (ev) {
+      window.addEventListener(ev, enableSound, { once: true, passive: true });
+    });
 
     new IntersectionObserver(function (en) {
       en.forEach(function (x) { x.isIntersecting ? mountFilm() : unmountFilm(); });
