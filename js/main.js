@@ -134,15 +134,19 @@
     function seg(a, b) { return Math.max(0, Math.min(1, (p - a) / (b - a))); }
     function smooth(x) { return x * x * (3 - 2 * x); }
 
-    // the mark rises straight out
-    var out = smooth(seg(0, 0.45));
+    // Retimed so the beats land together. The peek is geometry, not script:
+    // the film clears the bottom of the pinned panel at p=0.77 and is fully
+    // open at p=1, so the mark leaves and the headline arrives just before
+    // that, instead of finishing a third of the scroll early and leaving a
+    // dead stretch in between.
+    var out = smooth(seg(0, 0.48));
     introLogo.style.transform =
       'translateY(' + (flip.dy * out) + 'px) scale(' + (1 + (flip.s - 1) * out) + ')';
-    introLogo.style.opacity = 1 - seg(0.18, 0.44);
+    introLogo.style.opacity = 1 - seg(0.20, 0.47);
 
     // the headline arrives in the very spot it left, overlapping slightly so
     // the stage is never empty
-    var inn = smooth(seg(0.34, 0.60));
+    var inn = smooth(seg(0.38, 0.72));
     if (head) {
       head.style.opacity = inn;
       head.style.transform = 'translateY(' + (20 * (1 - inn)) + 'px)';
@@ -150,7 +154,7 @@
 
     // the scroll cue stays through the whole intro: it balances the stage
     // under the headline the same way it did under the mark
-    var barIn = p > 0.45;                          // then the menu arrives
+    var barIn = p > 0.55;                          // then the menu arrives
     root.style.setProperty('--logo-op', barIn ? 1 : 0);
     if (hdr) hdr.classList.toggle('is-top', !barIn);
   }
@@ -333,7 +337,10 @@
 
     new IntersectionObserver(function (en) {
       en.forEach(function (x) { x.isIntersecting ? mountFilm() : unmountFilm(); });
-    }, { threshold: 0.35 }).observe(stage);
+      // A low threshold on purpose: only about 18svh of the film shows at the
+      // end of the intro, roughly a sixth of it, so at 0.35 it would sit there
+      // visible and not playing until you scrolled further.
+    }, { threshold: 0.1 }).observe(stage);
   }
 
   /* ---------- touch: light the card crossing the middle ----------
