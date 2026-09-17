@@ -261,6 +261,13 @@
   var stage = document.querySelector('.reel__frame');
   if (stage && stage.dataset.yt && !reduce && 'IntersectionObserver' in window) {
     var player = null, mounting = false, paused = false, wantSound = false;
+    /* soundTried: the automatic unmute is attempted once per mount, not on
+       every playing event - loops and seeks fire plenty of those.
+       soundRejected: the browser refused an unmuted start. Without this the
+       two handlers below chase each other - unmute, refused, re-mute, play,
+       unmute again - which is the stutter, and why sound never settled.
+       Cleared by an explicit tap, which browsers do honour. */
+    var soundTried = false, soundRejected = false, nudges = 0;
     var id = stage.dataset.yt, apiReady = null;
 
     /* Commands used to be posted straight at the iframe the moment it loaded.
@@ -335,22 +342,29 @@
             onStateChange: function (e) {
               if (paused || !player) return;
               // 1 = playing: now that it is actually running, sound is safe.
-              if (e.data === 1 && soundAllowed() &&
-                  player.isMuted && player.isMuted()) {
+              if (e.data === 1 && !soundTried && !soundRejected &&
+                  soundAllowed() && player.isMuted && player.isMuted()) {
+                soundTried = true;
                 applySound(player);
-                // Record it, so the control can reflect reality - and on
-                // phones, where sound does start on its own, disappear.
                 wantSound = true;
                 paint();
               }
               // 2 = paused. If unmuting is what stopped it, go back to muted
               // and keep playing rather than leave a silent frozen frame.
               if (e.data === 2 && player.isMuted && !player.isMuted()) {
+                // It stopped while unmuted: the browser is refusing audio.
+                // Settle on muted playback and let the control say so.
+                soundRejected = true;
+                wantSound = false;
                 player.mute();
                 player.playVideo();
+                paint();
               }
               // -1 unstarted / 5 cued: autoplay never took. Nudge it.
-              if (e.data === -1 || e.data === 5) player.playVideo();
+              if ((e.data === -1 || e.data === 5) && nudges < 2) {
+                nudges++;
+                player.playVideo();
+              }
             }
           }
         });
@@ -359,6 +373,8 @@
 
     function unmountFilm() {
       mounting = false;
+      soundTried = false;
+      nudges = 0;
       if (player) {
         try { player.destroy(); } catch (err) {}
         player = null;
@@ -411,6 +427,9 @@
       muteBtn.addEventListener('click', function (e) {
         e.stopPropagation();
         userChose = true;
+        // A tap is consent the browser accepts, so a past refusal no longer
+        // applies.
+        soundRejected = false;
         wantSound = !wantSound;
         if (player) { wantSound ? applySound(player) : player.mute(); }
         paint();
