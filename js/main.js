@@ -374,7 +374,16 @@
       muteBtn.querySelector('span').textContent = wantSound ? 'Sound' : 'Muted';
     }
 
-    function enableSound() {
+    /* The automatic unmute is only there to catch the browser's consent the
+       first time. It must not fire for taps on the control itself - those
+       arrive as pointerdown here and as click there, so the pair read as two
+       toggles and the button looked like it needed holding down. And once the
+       visitor has chosen for themselves, their choice stands. */
+    var userChose = false;
+
+    function enableSound(e) {
+      if (userChose) return;
+      if (e && e.target && e.target.closest && e.target.closest('.reel__mute')) return;
       wantSound = true;
       if (player && !paused) applySound(player);
       paint();
@@ -385,6 +394,7 @@
     if (muteBtn) {
       muteBtn.addEventListener('click', function (e) {
         e.stopPropagation();
+        userChose = true;
         wantSound = !wantSound;
         if (player) { wantSound ? applySound(player) : player.mute(); }
         paint();
