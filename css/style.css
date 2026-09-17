@@ -899,3 +899,15 @@ body{background:var(--black)}
   width:13px;height:1px;background:currentColor;transform:translateY(-50%) rotate(-45deg)}
 .reel__mute.is-on{color:var(--paper)}
 .reel__mute.is-on i::after{display:none}
+
+/* ======================================================================
+   POST-DELIVERY 26 — the film sits higher on phones
+   ====================================================================== */
+
+/* The pinned panel is what decides how much of the film shows beneath it:
+   whatever height it does not take, the film fills. At 82svh only 18svh of it
+   appeared, which left a stretch of black between the scroll cue and the
+   picture. Shorter panel on phones, so the film arrives sooner and higher. */
+@media (max-width:900px){
+  .intro__inner{height:70svh}
+}
