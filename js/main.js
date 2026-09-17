@@ -219,6 +219,8 @@
     var yt = card.dataset.yt, file = card.dataset.file, img = card.dataset.img;
     var box = lb.querySelector('.lb__box');
     box.classList.toggle('is-img', !!img);
+    // Stills are not 16:9, so they must not be sized by the 16:9 fit formula.
+    lb.classList.toggle('is-still', !!img);
     if (img) {
       slot.innerHTML = '<img src="' + img + '" alt="' + (card.dataset.title || '') + '">';
     } else if (yt) {

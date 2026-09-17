@@ -813,3 +813,34 @@ body{background:var(--black)}
   border-top:5px solid transparent;border-bottom:5px solid transparent}
 .reel__sound:hover{border-color:var(--paper)}
 .reel__frame.has-sound .reel__sound{opacity:0;pointer-events:none}
+
+/* ======================================================================
+   POST-DELIVERY 23 — the lightbox always fits the window
+   ====================================================================== */
+
+/* The frame was only ever constrained by width: min(96vw, 1360px) with a 16:9
+   ratio. Nothing capped its height, so on any window that is wide relative to
+   its height the video ran past the bottom edge - 146px over on 1440x760, and
+   exactly at the limit on 1280x832. The YouTube control bar went with it, which
+   is why the fullscreen button was unreachable.
+
+   The width is now also capped by what the height allows, so the frame shrinks
+   to fit instead of overflowing. --lb-chrome covers the padding, the caption
+   row and the gap around it. vh first for older engines, svh where supported,
+   which is what mobile needs while the address bar moves. */
+.lb{--lb-chrome:150px}
+.lb__inner{width:min(96vw, calc((100vh - var(--lb-chrome)) * 16 / 9), 1360px)}
+@supports (height:100svh){
+  .lb__inner{width:min(96vw, calc((100svh - var(--lb-chrome)) * 16 / 9), 1360px)}
+}
+
+/* Stills keep the full width and are capped by height instead. */
+.lb.is-still .lb__inner{width:min(96vw,1360px)}
+.lb.is-still .lb__box.is-img img{max-height:calc(100vh - var(--lb-chrome))}
+@supports (height:100svh){
+  .lb.is-still .lb__box.is-img img{max-height:calc(100svh - var(--lb-chrome))}
+}
+
+@media (max-width:900px){
+  .lb{--lb-chrome:120px}
+}
