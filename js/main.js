@@ -383,7 +383,6 @@
       muteBtn.setAttribute('aria-pressed', wantSound ? 'true' : 'false');
       muteBtn.setAttribute('aria-label', wantSound ? 'Turn sound off' : 'Turn sound on');
       muteBtn.classList.toggle('is-on', wantSound);
-      muteBtn.querySelector('span').textContent = wantSound ? 'Sound' : 'Muted';
     }
 
     /* The automatic unmute is only there to catch the browser's consent the

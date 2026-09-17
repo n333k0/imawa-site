@@ -930,3 +930,30 @@ body{background:var(--black)}
   .intro__inner{height:100svh}
   .reel{position:relative;z-index:2;margin-top:-25svh}
 }
+
+/* ======================================================================
+   POST-DELIVERY 28 — sound control matches the play button
+   ====================================================================== */
+
+/* It was a text pill: darker ground, heavier-reading outline and far too much
+   button for a phone. Same circle, same weight and same treatment as play now,
+   carrying a speaker icon that shows its state instead of a word. */
+.reel__mute{
+  width:clamp(44px,4.5vw,64px);height:auto;aspect-ratio:1;
+  padding:0;border-radius:50%;
+  border:1px solid rgba(235,235,235,.6);
+  background:rgba(0,0,0,.30);backdrop-filter:blur(3px);
+  display:grid;place-items:center;gap:0;
+  color:var(--paper);font-size:0;letter-spacing:0;
+  transition:background .3s var(--ease),border-color .3s var(--ease)}
+.reel__mute:hover{background:rgba(0,0,0,.5);border-color:var(--paper)}
+.reel__mute svg{width:46%;height:46%;overflow:visible;
+  fill:none;stroke:currentColor;stroke-width:1.7;
+  stroke-linecap:round;stroke-linejoin:round}
+.reel__mute .ico-body{fill:currentColor;stroke:currentColor;stroke-width:1.2}
+.reel__mute .ico-wave{display:none}
+.reel__mute.is-on .ico-wave{display:block}
+.reel__mute.is-on .ico-slash{display:none}
+
+/* Same size as the play button it sits beside, not the smaller grid one. */
+.reel__mute{width:clamp(58px,6vw,92px)}
