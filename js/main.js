@@ -337,6 +337,7 @@
               e.target.mute();
               e.target.playVideo();
               host.classList.add('in');
+              stage.parentElement.classList.add('is-live');
               mounting = false;
             },
             onStateChange: function (e) {
@@ -381,6 +382,7 @@
       }
       var leftover = stage.querySelector('.reel__video');
       if (leftover) leftover.remove();
+      stage.parentElement.classList.remove('is-live');
     }
 
     filmCtl = {

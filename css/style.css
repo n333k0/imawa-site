@@ -979,3 +979,14 @@ body{background:var(--black)}
      where it did not - and vanishes the moment audio is running. */
   .reel__mute.is-on{display:none}
 }
+
+/* ======================================================================
+   POST-DELIVERY 30 — play affordance clears once the film is running
+   ====================================================================== */
+
+/* Firefox kept the ring drawn over the playing film. It is only meant to say
+   "this opens", so it goes as soon as the film is actually running - the host
+   gets .in from onReady - and comes back on hover, where it means something. */
+.reel__frame .card__play{transition:opacity .45s var(--ease)}
+.reel__stage.is-live .reel__frame .card__play{opacity:0}
+.reel__stage.is-live .reel__frame:hover .card__play{opacity:1}
