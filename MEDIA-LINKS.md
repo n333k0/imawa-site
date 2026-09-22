@@ -45,10 +45,14 @@ grid — but if this specific Torneos cut should appear, the options are:
 
 ## Festival material
 
-| Asset | Used as |
-|-------|---------|
-| `WEB_Banner_principal-03-1.jpg` | Banner closing the work section, inside the content column (`media/fest-mardelplata.jpg`) |
-| `moscu.jpg` | Moscow International Film Festival mark, in the banner caption |
+Nine festival and award marks open together, scrolling, from the strip under
+the work grid: Mar del Plata, Promax Awards (two marks), Poke, Bafici, Martín
+Fierro Latino, Moscow, Cuba and México.
+
+Web copies are in `media/festivals/`, capped at 720px. Masters and the full
+mapping are in `../IMAWA-ASSETS/festivals/`.
+
+The earlier Mar del Plata banner is no longer placed on the site.
 
 Note: the banner file was referred to as "the DirecTV banner", but it is the
 **40º Festival Internacional de Cine de Mar del Plata** banner.

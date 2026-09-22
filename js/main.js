@@ -216,12 +216,18 @@
     // Silence the inline film first, or its audio plays under the one that is
     // about to open. filmCtl is a var, so it is in scope from further down.
     if (filmCtl) filmCtl.pause();
-    var yt = card.dataset.yt, file = card.dataset.file, img = card.dataset.img;
+    var yt = card.dataset.yt, file = card.dataset.file, img = card.dataset.img,
+        gallery = card.dataset.gallery;
     var box = lb.querySelector('.lb__box');
     box.classList.toggle('is-img', !!img);
-    // Stills are not 16:9, so they must not be sized by the 16:9 fit formula.
+    // Neither stills nor the gallery are 16:9, so they must not be sized by
+    // the 16:9 fit formula.
     lb.classList.toggle('is-still', !!img);
-    if (img) {
+    lb.classList.toggle('is-gallery', !!gallery);
+    if (gallery) {
+      var src = document.getElementById(gallery);
+      slot.innerHTML = src ? src.innerHTML : '';
+    } else if (img) {
       slot.innerHTML = '<img src="' + img + '" alt="' + (card.dataset.title || '') + '">';
     } else if (yt) {
       slot.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + yt +
@@ -242,7 +248,7 @@
   }
   if (lb && grid) {
     document.addEventListener('click', function (e) {
-      var c = e.target.closest('[data-yt],[data-file],[data-img]');
+      var c = e.target.closest('[data-yt],[data-file],[data-img],[data-gallery]');
       if (c) openLb(c);
     });
     lbClose.addEventListener('click', closeLb);

@@ -990,3 +990,34 @@ body{background:var(--black)}
 .reel__frame .card__play{transition:opacity .45s var(--ease)}
 .reel__stage.is-live .reel__frame .card__play{opacity:0}
 .reel__stage.is-live .reel__frame:hover .card__play{opacity:1}
+
+/* ======================================================================
+   POST-DELIVERY 31 — festivals become a gallery
+   ====================================================================== */
+
+/* The strip used to open a single banner. It now opens every festival mark
+   and award at once, scrolling inside the lightbox. */
+.fest__trigger{justify-content:space-between}
+.fest__count{display:inline-grid;place-items:center;min-width:24px;height:24px;
+  padding:0 7px;border:1px solid var(--line-2);border-radius:999px;
+  font-size:10px;letter-spacing:.06em;color:var(--paper-45)}
+.fest__trigger:hover .fest__count{color:var(--paper);border-color:var(--paper)}
+
+/* Nine marks, every one on a different ground - cyan, green, white, black,
+   transparent. Keying them to one colour would destroy most of them, so each
+   sits on its own light tile instead and simply reads as what it is. */
+.fest__grid{display:grid;gap:clamp(10px,1.4vw,18px);width:100%;
+  grid-template-columns:repeat(auto-fill,minmax(min(100%,190px),1fr))}
+.fest__tile{margin:0;display:grid;place-items:center;aspect-ratio:4/3;
+  padding:clamp(14px,1.8vw,24px);border-radius:3px;background:var(--paper)}
+.fest__tile img{max-width:100%;max-height:100%;width:auto;height:auto;
+  object-fit:contain}
+
+/* The gallery scrolls rather than being squeezed into a 16:9 frame. */
+.lb.is-gallery .lb__inner{width:min(96vw,1180px)}
+.lb.is-gallery .lb__box{aspect-ratio:auto;background:transparent;
+  max-height:calc(100vh - var(--lb-chrome));overflow-y:auto;overscroll-behavior:contain}
+@supports (height:100svh){
+  .lb.is-gallery .lb__box{max-height:calc(100svh - var(--lb-chrome))}
+}
+.lb.is-gallery .lb__box > div{position:static;padding-right:4px}

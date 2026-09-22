@@ -219,14 +219,44 @@
          instead, from the festival mark on the right. To show it inline again,
          restore the <img class="fest__img"> line inside this block. -->
     <div class="fest">
-      <button class="fest__trigger" type="button"
-              data-img="media/fest-mardelplata.jpg"
-              data-title="40º Festival Internacional de Cine de Mar del Plata"
-              aria-label="View the Mar del Plata festival selection">
-        <span class="fest__label">Festival selections</span>
-        <img class="fest__mark" src="assets/logos/moscu.png" width="161" height="180"
-             alt="Moscow International Film Festival">
+      <button class="fest__trigger" type="button" data-gallery="festGallery"
+              aria-label="View festival selections and awards">
+        <span class="fest__label">Festival selections &amp; awards</span>
+        <span class="fest__count">9</span>
       </button>
+    </div>
+
+    <!-- Lifted into the lightbox when the strip above is clicked. -->
+    <div id="festGallery" hidden>
+      <div class="fest__grid">
+        <figure class="fest__tile">
+          <img src="media/festivals/mar-del-plata.jpg" alt="Mar del Plata" loading="lazy">
+        </figure>
+        <figure class="fest__tile">
+          <img src="media/festivals/promax-awards.jpg" alt="Promax Awards" loading="lazy">
+        </figure>
+        <figure class="fest__tile">
+          <img src="media/festivals/promax-awards-2.jpg" alt="Promax Awards" loading="lazy">
+        </figure>
+        <figure class="fest__tile">
+          <img src="media/festivals/poke.jpg" alt="Poke" loading="lazy">
+        </figure>
+        <figure class="fest__tile">
+          <img src="media/festivals/bafici.jpg" alt="Bafici" loading="lazy">
+        </figure>
+        <figure class="fest__tile">
+          <img src="media/festivals/martin-fierro-latino.png" alt="Martín Fierro Latino" loading="lazy">
+        </figure>
+        <figure class="fest__tile">
+          <img src="media/festivals/moscow.jpg" alt="Moscow International Film Festival" loading="lazy">
+        </figure>
+        <figure class="fest__tile">
+          <img src="media/festivals/cuba.png" alt="Festival de Cuba" loading="lazy">
+        </figure>
+        <figure class="fest__tile">
+          <img src="media/festivals/mexico.jpg" alt="Festival de México" loading="lazy">
+        </figure>
+      </div>
     </div>
   </section>
 
