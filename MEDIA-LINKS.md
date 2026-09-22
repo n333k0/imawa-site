@@ -3,7 +3,7 @@
 Every piece in *Selected work*, where its thumbnail comes from, and how it plays.
 Thumbnails were extracted with `ffmpeg` from the source files in `PARA WEB` / `PARA WEB 2`.
 
-## Plays from YouTube (11)
+## Plays from YouTube (12)
 
 | # | Work | Category | YouTube |
 |---|------|----------|---------|
@@ -18,6 +18,7 @@ Thumbnails were extracted with `ffmpeg` from the source files in `PARA WEB` / `P
 | 9 | Made for You, With Love | Film Scoring | https://www.youtube.com/watch?v=mQRmROvIq9k |
 | 10 | Sumergidos | TV Series | https://www.youtube.com/watch?v=Y4rCLxl-Mi4 |
 | 11 | Cierren Los Ojos | Documentary | https://www.youtube.com/watch?v=jg7Qz6Mv8ro |
+| 12 | La Fábrica del Deseo | Feature Film | https://www.youtube.com/watch?v=Rf1CD9z_hj4 |
 
 Embedded via `youtube-nocookie.com`, autoplay on open. Clearing the lightbox stops playback.
 

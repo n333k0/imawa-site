@@ -39,17 +39,25 @@ Prefer frames without burnt-in subtitles — several trailers carry them.
 
 Add the card to the grid in `index.html`, in the order the grid should read:
 
-    <article class="card" data-cat="broadcast">
+    <button class="card" data-cat="broadcast" data-yt="<id>"
+            data-title="<Title>" type="button" aria-label="Play <Title>">
       <div class="card__media">
         <img src="media/thumbs/<slug>.jpg" alt="<Title>" loading="lazy"
              width="1600" height="900">
         <span class="card__play" aria-hidden="true"></span>
         <div class="card__ov">
           <h3><Title></h3>
-          <ul class="tags"><li class="tag"><Tag></li></ul>
+          <ul class="tags">
+            <li class="tag"><Tag></li>
+            <li class="tag card__src">YouTube</li>
+          </ul>
         </div>
       </div>
-    </article>
+    </button>
+
+A card is a `<button>`, not an `<article>`: the whole tile is the click target
+that opens the lightbox. Copy the indentation from a neighbouring card rather
+than assuming it.
 
 Categories in use: `broadcast`, `branding`, `advertising`, `film`,
 `documentary`. Adding a new one means adding its chip to the filter row too.
