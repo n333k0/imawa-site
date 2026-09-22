@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>IMAWA — Brand toolkit</title>
+<meta name="description" content="Logo, colour, type, social assets and email signatures for IMAWA.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--black:#000;--ink:#0a0a0a;--line:rgba(235,235,235,.14);--line2:rgba(235,235,235,.3);
+  --cream:#BAA47B;--paper:#EBEBEB;--p70:rgba(235,235,235,.7);--p45:rgba(235,235,235,.45);
+  --font:"Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif;
+  --pad:clamp(20px,5vw,72px);--ease:cubic-bezier(.22,.61,.36,1)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--black);color:var(--paper);font-family:var(--font);
+  font-weight:300;line-height:1.55;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:var(--pad)}
+header{padding:clamp(52px,9vh,110px) 0 clamp(28px,4vh,48px);border-bottom:1px solid var(--line)}
+header img{width:min(52vw,320px)}
+header h1{margin:clamp(26px,4vw,44px) 0 0;font-size:clamp(1.9rem,5vw,3.4rem);
+  font-weight:300;letter-spacing:-.03em;line-height:1.02}
+header p{margin:16px 0 0;max-width:56ch;color:var(--p70);font-size:clamp(.98rem,1.4vw,1.15rem)}
+.toc{display:flex;flex-wrap:wrap;gap:10px;margin-top:clamp(26px,4vw,40px)}
+.toc a{border:1px solid var(--line2);border-radius:999px;padding:8px 18px;font-size:12px;
+  letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--p70);
+  transition:.25s var(--ease)}
+.toc a:hover{color:var(--paper);border-color:var(--paper)}
+section{padding:clamp(52px,8vh,96px) 0;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--cream);
+  margin:0 0 16px;font-weight:600}
+h2{margin:0 0 10px;font-size:clamp(1.6rem,4vw,2.6rem);font-weight:300;letter-spacing:-.03em}
+.lede{margin:0 0 clamp(26px,4vw,40px);max-width:62ch;color:var(--p70)}
+h3{margin:clamp(30px,4vw,44px) 0 14px;font-size:1rem;font-weight:500;letter-spacing:.02em}
+.grid{display:grid;gap:clamp(12px,1.6vw,20px)}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr))}
+figure{margin:0}
+.tile{border:1px solid var(--line);border-radius:4px;overflow:hidden;background:var(--ink)}
+.tile img{width:100%}
+.cap{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between;
+  padding:12px 14px;font-size:12px;color:var(--p45);border-top:1px solid var(--line)}
+.cap b{font-weight:500;color:var(--p70)}
+.dl{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--cream);
+  text-decoration:none;white-space:nowrap}
+.dl:hover{color:var(--paper)}
+.swatch{border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.swatch .chip{height:118px}
+.swatch dl{margin:0;padding:12px 14px;border-top:1px solid var(--line);font-size:12px}
+.swatch dt{color:var(--p70);font-weight:500}
+.swatch dd{margin:4px 0 0;color:var(--p45);font-variant-numeric:tabular-nums}
+.type-row{border-top:1px solid var(--line);padding:18px 0;display:grid;gap:6px}
+.type-row:last-of-type{border-bottom:1px solid var(--line)}
+.type-row span{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--p45)}
+.rules{list-style:none;margin:0;padding:0;display:grid;gap:1px;background:var(--line)}
+.rules li{background:var(--black);padding:18px 0 18px 22px;position:relative;color:var(--p70)}
+.rules li::before{content:"";position:absolute;left:0;top:26px;width:9px;height:1px;background:var(--cream)}
+.rules li b{color:var(--paper);font-weight:500}
+.sig{background:#fff;color:#111;border-radius:4px;padding:clamp(20px,3vw,30px)}
+.sig + .sig{margin-top:14px}
+.code{position:relative;margin-top:14px}
+.code pre{margin:0;overflow-x:auto;background:var(--ink);border:1px solid var(--line);
+  border-radius:4px;padding:16px 16px;font-size:11.5px;line-height:1.55;color:var(--p70);
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.copy{position:absolute;top:10px;right:10px;border:1px solid var(--line2);border-radius:999px;
+  background:rgba(0,0,0,.6);color:var(--p70);font:inherit;font-size:11px;letter-spacing:.12em;
+  text-transform:uppercase;padding:7px 14px;cursor:pointer;transition:.25s var(--ease)}
+.copy:hover{color:var(--paper);border-color:var(--paper)}
+.note{margin-top:18px;border:1px dashed var(--cream);background:rgba(186,164,123,.08);
+  padding:14px 18px;font-size:13px;color:var(--p70);border-radius:4px}
+.note b{color:var(--paper);font-weight:500}
+footer{padding:clamp(44px,7vh,80px) 0;color:var(--p45);font-size:12px;
+  display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between}
+@media (max-width:640px){.cap{flex-direction:column;gap:6px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <img src="brand/logo/imawa-paper.png" alt="IMAWA">
+    <h1>Brand toolkit</h1>
+    <p>Everything needed to put IMAWA out in the world consistently — the mark, the
+       palette, the type, ready social assets and email signatures. Every asset on this
+       page is downloadable at the size it should be used.</p>
+    <nav class="toc">
+      <a href="#logo">Logo</a><a href="#colour">Colour</a><a href="#type">Type</a>
+      <a href="#social">Social</a><a href="#email">Email signatures</a><a href="#rules">Usage</a>
+    </nav>
+  </div>
+</header>
+
+<section id="logo">
+  <div class="wrap">
+    <p class="eyebrow">01</p>
+    <h2>Logo</h2>
+    <p class="lede">A wordmark, nothing else — there is no separate symbol. It is drawn
+      with very fine strokes, so it needs room and enough size to stay legible. Never
+      place it on a busy image without a scrim behind it.</p>
+
+    <div class="grid g4">
+      <figure class="tile"><div style="background:#000;padding:26px 18px"><img src="brand/logo/imawa-paper.png" alt="Paper on black"></div>
+        <figcaption class="cap"><b>Paper on dark</b><a class="dl" href="brand/logo/imawa-paper.png" download>PNG</a></figcaption></figure>
+      <figure class="tile"><div style="background:#EBEBEB;padding:26px 18px"><img src="brand/logo/imawa-black.png" alt="Black on light"></div>
+        <figcaption class="cap"><b>Black on light</b><a class="dl" href="brand/logo/imawa-black.png" download>PNG</a></figcaption></figure>
+      <figure class="tile"><div style="background:#BAA47B;padding:26px 18px"><img src="brand/logo/imawa-white.png" alt="White on cream"></div>
+        <figcaption class="cap"><b>White on cream</b><a class="dl" href="brand/logo/imawa-white.png" download>PNG</a></figcaption></figure>
+      <figure class="tile"><div style="background:#0a0a0a;padding:26px 18px"><img src="brand/logo/imawa-cream.png" alt="Cream on black"></div>
+        <figcaption class="cap"><b>Cream accent</b><a class="dl" href="brand/logo/imawa-cream.png" download>PNG</a></figcaption></figure>
+    </div>
+
+    <h3>Vector</h3>
+    <p class="lede">Use these for print, large format, or anywhere the mark will be
+      scaled. Both carry transparency.</p>
+    <div class="grid g2">
+      <figure class="tile"><figcaption class="cap"><b>Dark artwork — for light grounds</b><a class="dl" href="brand/logo/imawa-vector-dark.pdf" download>PDF</a></figcaption></figure>
+      <figure class="tile"><figcaption class="cap"><b>Light artwork — for dark grounds</b><a class="dl" href="brand/logo/imawa-vector-light.pdf" download>PDF</a></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="colour">
+  <div class="wrap">
+    <p class="eyebrow">02</p>
+    <h2>Colour</h2>
+    <p class="lede">Three values, sampled from the original logo lockups. Black carries
+      almost everything; cream is an accent and should stay one — labels, rules, small
+      emphasis. Paper is the type colour on dark.</p>
+    <div class="grid g4">
+      <div class="swatch"><div class="chip" style="background:#000;border-bottom:1px solid var(--line)"></div>
+        <dl><dt>Black</dt><dd>#000000 · rgb(0,0,0)</dd><dd>Grounds, type on light</dd></dl></div>
+      <div class="swatch"><div class="chip" style="background:#EBEBEB"></div>
+        <dl><dt>Paper</dt><dd>#EBEBEB · rgb(235,235,235)</dd><dd>Type on dark</dd></dl></div>
+      <div class="swatch"><div class="chip" style="background:#BAA47B"></div>
+        <dl><dt>Cream</dt><dd>#BAA47B · rgb(186,164,123)</dd><dd>Accent only</dd></dl></div>
+      <div class="swatch"><div class="chip" style="background:#0A0A0A"></div>
+        <dl><dt>Ink</dt><dd>#0A0A0A · rgb(10,10,10)</dd><dd>Panels, tiles</dd></dl></div>
+    </div>
+  </div>
+</section>
+
+<section id="type">
+  <div class="wrap">
+    <p class="eyebrow">03</p>
+    <h2>Type</h2>
+    <p class="lede">Plus Jakarta Sans throughout, and mostly at Light. It is free on
+      Google Fonts, so anyone can install it without a licence.</p>
+    <div class="type-row"><span>Display · Light 300 · tight tracking</span>
+      <div style="font-size:clamp(1.9rem,6vw,3.6rem);letter-spacing:-.03em;line-height:1.02">Born from entertainment.</div></div>
+    <div class="type-row"><span>Body · Light 300</span>
+      <div style="font-size:1.05rem;color:var(--p70);max-width:58ch">Award-winning music production company — scoring for broadcasters and brands across the globe.</div></div>
+    <div class="type-row"><span>Label · Medium 500 · 0.2em tracking · uppercase</span>
+      <div style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--cream);font-weight:500">Selected work</div></div>
+  </div>
+</section>
+
+<section id="social">
+  <div class="wrap">
+    <p class="eyebrow">04</p>
+    <h2>Social</h2>
+    <p class="lede">Sized for each placement and ready to upload. Instagram and LinkedIn
+      take the same square avatar.</p>
+
+    <h3>Avatars — 1080 × 1080</h3>
+    <div class="grid g3">
+      <figure class="tile"><img src="brand/social/avatar-black.png" alt="Avatar on black">
+        <figcaption class="cap"><b>Black — primary</b><a class="dl" href="brand/social/avatar-black.png" download>PNG</a></figcaption></figure>
+      <figure class="tile"><img src="brand/social/avatar-paper.png" alt="Avatar on paper">
+        <figcaption class="cap"><b>Paper</b><a class="dl" href="brand/social/avatar-paper.png" download>PNG</a></figcaption></figure>
+      <figure class="tile"><img src="brand/social/avatar-cream.png" alt="Avatar on cream">
+        <figcaption class="cap"><b>Cream</b><a class="dl" href="brand/social/avatar-cream.png" download>PNG</a></figcaption></figure>
+    </div>
+    <div class="note"><b>On small avatars.</b> The wordmark is fine and wide, so at the
+      ~40px a feed renders it becomes faint. Black is the primary because it holds up
+      best. If the mark ever needs to read at thumbnail size, that is a monogram
+      decision for the brand owner, not something to improvise here.</div>
+
+    <h3>LinkedIn covers — 1584 × 396</h3>
+    <div class="grid g2">
+      <figure class="tile"><img src="brand/social/linkedin-cover-mark.png" alt="Cover, centred mark">
+        <figcaption class="cap"><b>Centred mark</b><a class="dl" href="brand/social/linkedin-cover-mark.png" download>PNG</a></figcaption></figure>
+      <figure class="tile"><img src="brand/social/linkedin-cover-phrase.png" alt="Cover, phrase">
+        <figcaption class="cap"><b>Phrase</b><a class="dl" href="brand/social/linkedin-cover-phrase.png" download>PNG</a></figcaption></figure>
+      <figure class="tile"><img src="brand/social/linkedin-cover-rule.png" alt="Cover, mark and rule">
+        <figcaption class="cap"><b>Mark and rule</b><a class="dl" href="brand/social/linkedin-cover-rule.png" download>PNG</a></figcaption></figure>
+    </div>
+    <div class="note"><b>Why the content sits off to the right.</b> LinkedIn lays the
+      profile photo over the lower-left of the cover, roughly 260px wide, and crops the
+      edges further on phones. Everything here starts past that, so nothing important
+      disappears behind the avatar.</div>
+
+    <h3>Post templates — 1080 × 1080</h3>
+    <div class="grid g3">
+      <figure class="tile"><img src="brand/social/post-lockup.png" alt="Post, lockup">
+        <figcaption class="cap"><b>Lockup</b><a class="dl" href="brand/social/post-lockup.png" download>PNG</a></figcaption></figure>
+      <figure class="tile"><img src="brand/social/post-phrase.png" alt="Post, phrase">
+        <figcaption class="cap"><b>Phrase</b><a class="dl" href="brand/social/post-phrase.png" download>PNG</a></figcaption></figure>
+      <figure class="tile"><img src="brand/social/post-image.png" alt="Post, image">
+        <figcaption class="cap"><b>Over artwork</b><a class="dl" href="brand/social/post-image.png" download>PNG</a></figcaption></figure>
+    </div>
+    <p class="lede" style="margin-top:14px">The third is a frame, not a finished post:
+      drop a still or artwork behind it and keep the dark band so the mark stays legible.</p>
+
+    <h3>Story — 1080 × 1920</h3>
+    <div class="grid g3">
+      <figure class="tile"><img src="brand/social/story.png" alt="Story template">
+        <figcaption class="cap"><b>Story</b><a class="dl" href="brand/social/story.png" download>PNG</a></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="email">
+  <div class="wrap">
+    <p class="eyebrow">05</p>
+    <h2>Email signatures</h2>
+    <p class="lede">Built as a table so it survives Gmail, Outlook and Apple Mail. The
+      mark is black on a transparent background, which is what mail clients need — they
+      render on white, and a light logo would vanish.</p>
+
+    <h3>Agustín Iacona</h3>
+    <div class="sig" id="sig-a">
+      <table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;font-family:Helvetica,Arial,sans-serif">
+        <tr>
+          <td style="padding-right:18px;border-right:1px solid #ddd;vertical-align:middle">
+            <img src="brand/email/signature-logo@2x.png" width="150" alt="IMAWA" style="display:block;border:0">
+          </td>
+          <td style="padding-left:18px;vertical-align:middle">
+            <div style="font-size:15px;font-weight:600;color:#111">Agustín Iacona</div>
+            <div style="font-size:13px;color:#666;padding-top:2px">Founder · Composer</div>
+            <div style="font-size:13px;padding-top:8px">
+              <a href="mailto:hello@imawamusic.com" style="color:#111;text-decoration:none">hello@imawamusic.com</a>
+            </div>
+            <div style="font-size:13px;padding-top:2px">
+              <a href="https://imawamusic.com" style="color:#BAA47B;text-decoration:none">imawamusic.com</a>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <h3>Ary Werthein</h3>
+    <div class="sig" id="sig-b">
+      <table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;font-family:Helvetica,Arial,sans-serif">
+        <tr>
+          <td style="padding-right:18px;border-right:1px solid #ddd;vertical-align:middle">
+            <img src="brand/email/signature-logo@2x.png" width="150" alt="IMAWA" style="display:block;border:0">
+          </td>
+          <td style="padding-left:18px;vertical-align:middle">
+            <div style="font-size:15px;font-weight:600;color:#111">Ary Werthein</div>
+            <div style="font-size:13px;color:#666;padding-top:2px">Founder · Composer</div>
+            <div style="font-size:13px;padding-top:8px">
+              <a href="mailto:hello@imawamusic.com" style="color:#111;text-decoration:none">hello@imawamusic.com</a>
+            </div>
+            <div style="font-size:13px;padding-top:2px">
+              <a href="https://imawamusic.com" style="color:#BAA47B;text-decoration:none">imawamusic.com</a>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <h3>Blank — for anyone else</h3>
+    <div class="sig" id="sig-c">
+      <table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;font-family:Helvetica,Arial,sans-serif">
+        <tr>
+          <td style="padding-right:18px;border-right:1px solid #ddd;vertical-align:middle">
+            <img src="brand/email/signature-logo@2x.png" width="150" alt="IMAWA" style="display:block;border:0">
+          </td>
+          <td style="padding-left:18px;vertical-align:middle">
+            <div style="font-size:15px;font-weight:600;color:#111">Full name</div>
+            <div style="font-size:13px;color:#666;padding-top:2px">Role</div>
+            <div style="font-size:13px;padding-top:8px">
+              <a href="mailto:name@imawamusic.com" style="color:#111;text-decoration:none">name@imawamusic.com</a>
+            </div>
+            <div style="font-size:13px;padding-top:2px">
+              <a href="https://imawamusic.com" style="color:#BAA47B;text-decoration:none">imawamusic.com</a>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="note"><b>Two things to set before rolling these out.</b> The individual
+      addresses are not published anywhere, so all three currently point at
+      <b>hello@imawamusic.com</b> — swap in the personal ones. And the logo needs an
+      absolute URL to appear in a sent email: the copy button below rewrites it to the
+      hosted one automatically.</div>
+
+    <h3>Copy the code</h3>
+    <div class="code">
+      <button class="copy" data-copy="sig-a">Copy Agustín</button>
+      <pre id="out-a">Press copy — the HTML is written to your clipboard with absolute image paths.</pre>
+    </div>
+    <div class="code">
+      <button class="copy" data-copy="sig-b">Copy Ary</button>
+      <pre id="out-b">Press copy — the HTML is written to your clipboard with absolute image paths.</pre>
+    </div>
+    <div class="code">
+      <button class="copy" data-copy="sig-c">Copy blank</button>
+      <pre id="out-c">Press copy — the HTML is written to your clipboard with absolute image paths.</pre>
+    </div>
+
+    <h3>Installing it</h3>
+    <ul class="rules">
+      <li><b>Gmail.</b> Settings → See all settings → Signature → paste into the box.
+        Paste the rendered block above, not the code, and Gmail keeps the layout.</li>
+      <li><b>Apple Mail.</b> Settings → Signatures → paste, then untick
+        "Always match my default message font".</li>
+      <li><b>Outlook.</b> Paste into the signature editor. Outlook on Windows may add
+        its own spacing around tables; the layout holds.</li>
+    </ul>
+
+    <div class="grid g3" style="margin-top:26px">
+      <figure class="tile"><div style="background:#fff;padding:26px"><img src="brand/email/signature-logo@2x.png" alt="Signature logo"></div>
+        <figcaption class="cap"><b>Signature mark — transparent</b><a class="dl" href="brand/email/signature-logo@2x.png" download>PNG</a></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="rules">
+  <div class="wrap">
+    <p class="eyebrow">06</p>
+    <h2>Usage</h2>
+    <p class="lede">Short on purpose. Six rules cover almost everything.</p>
+    <ul class="rules">
+      <li><b>Give it room.</b> Keep clear space around the mark of at least the height
+        of its own letters. It is a fine wordmark and crowding kills it.</li>
+      <li><b>Do not redraw it.</b> No stretching, no outlining, no shadows, no
+        gradients, and never retype it in another font — the letterforms are custom.</li>
+      <li><b>One accent.</b> Cream is for labels, rules and small emphasis. Headlines
+        stay paper or black.</li>
+      <li><b>Contrast over placement.</b> On artwork, put the mark on a dark scrim
+        rather than hunting for a quiet corner.</li>
+      <li><b>Black is the default ground.</b> Paper and cream are alternates, not
+        equals.</li>
+      <li><b>Type is Light.</b> Plus Jakarta Sans at 300 for display and body; Medium
+        only for small uppercase labels.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;width:100%">
+    <span>IMAWA — brand toolkit</span>
+    <span><a href="/" style="color:var(--cream);text-decoration:none">Back to the site</a></span>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.copy').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var src = document.getElementById(btn.dataset.copy);
+    var html = src.innerHTML
+      .replace(/src="brand\//g, 'src="' + location.origin + '/brand/')
+      .replace(/\s+/g, ' ').trim();
+    var out = document.getElementById('out-' + btn.dataset.copy.split('-')[1]);
+    out.textContent = html;
+    var done = function () { btn.textContent = 'Copied'; setTimeout(function(){
+      btn.textContent = btn.dataset.label; }, 1800); };
+    btn.dataset.label = btn.dataset.label || btn.textContent;
+    if (navigator.clipboard && window.isSecureContext) {
+      var blob = new Blob([html], { type: 'text/html' });
+      var plain = new Blob([html], { type: 'text/plain' });
+      navigator.clipboard.write([new ClipboardItem({ 'text/html': blob, 'text/plain': plain })])
+        .then(done).catch(function () { navigator.clipboard.writeText(html).then(done); });
+    } else {
+      var r = document.createRange(); r.selectNodeContents(out);
+      var s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      document.execCommand('copy'); done();
+    }
+  });
+});
+</script>
+</body>
+</html>
