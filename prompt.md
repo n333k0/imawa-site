@@ -52,4 +52,5 @@ Let's talk.
 
 ## Live
 - Repo: https://github.com/n333k0/imawa-site (private)
-- Preview: https://imawa-site-n333k0s-projects.vercel.app
+- Live: https://imawamusic.com (Hostinger, manual upload)
+- Preview: https://imawa-site-n333k0s-projects.vercel.app (auto from master)

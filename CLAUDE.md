@@ -19,14 +19,57 @@ organised by category, with a manifest in its README.
 
 ## Deploying
 
-Push to `master`. Vercel builds from the repo and there is nothing else to run.
+Two targets, and they are not the same thing.
+
+**Production is Hostinger, and it is a manual upload.** `imawamusic.com` is
+served as plain files out of `public_html` on the client's Hostinger plan. A
+`git push` does **not** reach it.
+
+    ./build-hostinger.sh          # writes ../imawa-hostinger.zip
+
+Then, in hPanel under Sitios web -> imawamusic.com:
+
+1. Backups -> take a manual backup first.
+2. Gestor de archivos -> `public_html` -> turn on **show hidden files**, or
+   `.htaccess` will be invisible and you will not notice it is missing.
+3. Delete what is there, upload the zip, extract it.
+   The extract dialog **forces a folder name** - it will not unpack loose into
+   `public_html`. Extract into `tmp/`, then select all (hidden files included)
+   and move it up to `/public_html`, then delete `tmp/` and the zip.
+4. Panel -> Esenciales -> Caché -> **Limpiar caché**. LiteSpeed will keep
+   serving the old pages otherwise, and it looks exactly like a failed upload.
+
+**Vercel is the preview** the client is shown, and it still deploys itself from
+`master`:
 
     git add -A && git commit -m "..." && git push origin master
 
-Live at https://imawa-site-n333k0s-projects.vercel.app
+So the habit is: push, check it on Vercel, and only then build the zip and
+upload. The repo stays the source of truth for both.
 
-Verify against production, not localhost — `curl` the served CSS or JS and grep
-for what you changed. A local server proves nothing about the deploy.
+Verify against the real host, not localhost — `curl` the served CSS or JS and
+grep for what you changed. A local server proves nothing about a deploy.
+
+## .htaccess carries the routing
+
+`vercel.json` (`cleanUrls`, `trailingSlash:false`) only works on Vercel.
+On Hostinger the same job is done by `.htaccess`, and **the site is broken
+without it**: the nav links to `/about` with no extension.
+
+Two things in there are load-bearing and easy to break:
+
+- `AddOutputFilterByType` comes from **mod_filter**, not mod_deflate. Guarding
+  it with `<IfModule mod_deflate.c>` 500s the entire site on any host where
+  mod_filter is absent.
+- `brand.html` and the `brand/` assets folder share a name. Apache would
+  redirect `/brand` to `/brand/` and serve the folder, so `DirectorySlash Off`
+  is set and the rewrite deliberately has no `!-d` test — the page has to win
+  over the directory, which is what Vercel did.
+
+Both were found by running a local Apache against the built zip, which is the
+only way to test this. Hostinger runs LiteSpeed rather than Apache; it reads
+`.htaccess` with high compatibility but it is not identical, so after any
+change to it, open `/about` and `/brand` on the live domain.
 
 ## The stylesheet is append-only
 

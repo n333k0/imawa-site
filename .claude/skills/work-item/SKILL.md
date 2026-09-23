@@ -79,6 +79,9 @@ thumbnail came from.
 
 Check the served files, not local ones:
 
+    # preview, right after the push
     curl -sL https://imawa-site-n333k0s-projects.vercel.app/ | grep -c '<slug>'
+    # production, only once the zip has been uploaded to Hostinger
+    curl -sL https://imawamusic.com/ | grep -c '<slug>'
 
 and confirm the thumbnail returns 200.

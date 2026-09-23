@@ -4,13 +4,46 @@
 
 | | |
 |---|---|
-| Live | https://imawa-site-n333k0s-projects.vercel.app |
-| Repo | `github.com/n333k0/imawa-site` (private) |
+| **Live** | **https://imawamusic.com** — Hostinger, the real one |
+| Preview | https://imawa-site-n333k0s-projects.vercel.app — for showing work in progress |
+| Repo | `github.com/n333k0/imawa-site` (public) |
 | Code | `~/Documents/1_Coding/imawa-site` |
 | Masters | `~/Documents/1_Coding/IMAWA-ASSETS` — 3 GB, outside the repo |
 | Backups | tags `v1-backup`, `v2-backup`, plus sibling `-BACKUP-v1/v2` folders |
 
-Deploying is `git push origin master`. Vercel does the rest. Nothing to build.
+## Deploying
+
+There is no build step, but there are two targets and only one of them is
+automatic.
+
+**Vercel updates itself** from a push to `master`. That is the preview.
+
+    git add -A && git commit -m "..." && git push origin master
+
+**Hostinger is production, and it is a manual upload.** A push does not reach
+`imawamusic.com`.
+
+    ./build-hostinger.sh          # writes ../imawa-hostinger.zip
+
+Then in hPanel, under Sitios web → imawamusic.com:
+
+1. **Backups** → take a manual one before touching anything.
+2. **Gestor de archivos** → `public_html`. Turn on *show hidden files* first,
+   or `.htaccess` stays invisible and you will not notice if it went missing.
+3. Delete the contents, upload the zip, extract.
+   The extract dialog **makes you name a folder** — it will not unpack loose.
+   Extract into `tmp/`, select all (hidden files included), move up to
+   `/public_html`, then delete `tmp/` and the zip.
+4. **Panel → Esenciales → Caché → Limpiar caché.** Skip this and LiteSpeed
+   keeps serving the old pages, which looks identical to a failed upload.
+
+Then open `/about` and `/brand` on the live domain. Those two are the ones
+that break if `.htaccess` did not survive the move — the rest of the site
+would still look fine.
+
+DNS and email are untouched by any of this. The domain already points at
+Hostinger, SSL is already issued, and the mail records (MX, DKIM, SPF, DMARC)
+live in the DNS panel, not in `public_html`.
 
 ## Working on it with Claude Code
 
@@ -25,7 +58,7 @@ it fills without black bars.
 
 ## What the site is
 
-One scrolling page, plus `/about`.
+One scrolling page, plus `/about` and `/brand` (the brand toolkit).
 
 The intro opens on the mark, which rises into the nav bar as you scroll while
 the headline takes its place and the featured film appears underneath. Then

@@ -1,0 +1,60 @@
+# IMAWA - Apache config for Hostinger.
+# Replaces what vercel.json did: cleanUrls + trailingSlash:false. The nav links
+# to /about with no extension, so without these rewrites that URL 404s.
+
+Options -Indexes
+
+# brand.html and the brand/ assets folder share a name. Apache would redirect
+# /brand to /brand/ and serve the folder; Vercel served the page. DirectorySlash
+# Off stops that redirect so the rule below can hand over brand.html instead.
+DirectorySlash Off
+
+RewriteEngine On
+RewriteBase /
+
+# /about.html -> /about, one canonical URL. THE_REQUEST only ever matches what
+# the browser actually asked for, never an internal rewrite, which is what keeps
+# this from looping against the rewrite further down.
+RewriteCond %{THE_REQUEST} \s/+(.+)\.html[\s?] [NC]
+RewriteRule ^ /%1 [R=301,L]
+
+# /about/ -> /about, when the page exists
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+RewriteRule ^(.+?)/$ /$1 [R=301,L]
+
+# /about -> about.html. No !-d test here on purpose: the page has to win over a
+# same-named directory, which is the whole point of DirectorySlash Off above.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+RewriteRule ^(.+?)/?$ /$1.html [L]
+
+# trailing slash cleanup for everything that is not a real directory
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+# AddOutputFilterByType comes from mod_filter, not mod_deflate - guarding on the
+# wrong module 500s the whole site where it is missing.
+<IfModule mod_filter.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml \
+    application/javascript application/json application/manifest+json image/svg+xml
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  # the HTML must not be cached hard, or a re-upload does not show up
+  ExpiresByType text/html                  "access plus 0 seconds"
+  ExpiresByType text/css                   "access plus 1 year"
+  ExpiresByType application/javascript     "access plus 1 year"
+  ExpiresByType image/jpeg                 "access plus 1 year"
+  ExpiresByType image/png                  "access plus 1 year"
+  ExpiresByType image/webp                 "access plus 1 year"
+  ExpiresByType image/vnd.microsoft.icon   "access plus 1 year"
+  ExpiresByType video/mp4                  "access plus 1 year"
+  ExpiresByType application/pdf            "access plus 1 month"
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+</IfModule>
+
+AddType application/manifest+json .webmanifest
