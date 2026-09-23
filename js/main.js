@@ -548,4 +548,111 @@
     var r = el.getBoundingClientRect();
     if (r.top < innerHeight) show(el);
   }); }, 1200);
+
+  /* ---------- festival gallery: a tile enlarges into a slideshow ----------
+     The gallery markup is injected into the lightbox slot, so the tiles do
+     not exist until it opens and the clicks have to be delegated. The viewer
+     itself is mounted on <body> rather than inside .lb, because .lb__box
+     scrolls (overflow-y:auto) and a fixed child of a scrolling or transformed
+     ancestor gets clipped. .lb is z-index 300, .fv is 400, so while the
+     slideshow is up it covers the lightbox and its close button - which is
+     why closing the lightbox out from under it is not reachable. */
+  var fv = null, fvImg, fvCap, fvCount, fvTiles = [], fvAt = 0, fvOpener = null;
+
+  function fvBuild() {
+    if (fv) return;
+    fv = document.createElement('div');
+    fv.className = 'fv';
+    fv.setAttribute('role', 'dialog');
+    fv.setAttribute('aria-modal', 'true');
+    fv.setAttribute('aria-label', 'Festival selections and awards');
+    fv.innerHTML =
+      '<div class="fv__head">' +
+        '<p class="fv__count"></p>' +
+        '<button class="fv__close" type="button" aria-label="Close">' +
+          '<i aria-hidden="true"></i></button>' +
+      '</div>' +
+      '<div class="fv__stage">' +
+        '<button class="fv__nav fv__nav--prev" type="button" aria-label="Previous">' +
+          '<i aria-hidden="true"></i></button>' +
+        '<img class="fv__img" alt="">' +
+        '<button class="fv__nav fv__nav--next" type="button" aria-label="Next">' +
+          '<i aria-hidden="true"></i></button>' +
+      '</div>' +
+      '<p class="fv__foot"></p>';
+    document.body.appendChild(fv);
+    fvImg = fv.querySelector('.fv__img');
+    fvCap = fv.querySelector('.fv__foot');
+    fvCount = fv.querySelector('.fv__count');
+    fv.querySelector('.fv__close').addEventListener('click', fvClose);
+    fv.querySelector('.fv__nav--prev').addEventListener('click', function () { fvGo(-1); });
+    fv.querySelector('.fv__nav--next').addEventListener('click', function () { fvGo(1); });
+    fv.addEventListener('click', function (e) {
+      if (e.target === fv || e.target === fv.querySelector('.fv__stage')) fvClose();
+    });
+    // swipe, since there is no hover target to find on a phone
+    var x0 = null;
+    var stage = fv.querySelector('.fv__stage');
+    stage.addEventListener('touchstart', function (e) {
+      x0 = e.changedTouches[0].clientX;
+    }, { passive: true });
+    stage.addEventListener('touchend', function (e) {
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0;
+      x0 = null;
+      if (Math.abs(dx) > 45) fvGo(dx < 0 ? 1 : -1);
+    }, { passive: true });
+  }
+
+  function fvShow(i) {
+    var n = fvTiles.length;
+    if (!n) return;
+    fvAt = (i + n) % n;
+    var t = fvTiles[fvAt];
+    fvImg.src = t.dataset.full;
+    fvImg.alt = t.dataset.cap || '';
+    fvCap.textContent = t.dataset.cap || '';
+    fvCount.textContent = (fvAt + 1) + ' / ' + n;
+    // warm both neighbours so stepping through does not flash white
+    [fvTiles[(fvAt + 1) % n], fvTiles[(fvAt - 1 + n) % n]].forEach(function (x) {
+      if (x) { var p = new Image(); p.src = x.dataset.full; }
+    });
+  }
+  function fvGo(d) { fvShow(fvAt + d); }
+  function fvIsOpen() { return !!fv && fv.classList.contains('open'); }
+
+  function fvOpen(tile) {
+    fvBuild();
+    // scope to the grid that was clicked: the source #festGallery is still in
+    // the document (hidden), so querying the whole page counts every tile twice
+    var grid = tile.closest('.fest__grid') || document;
+    fvTiles = [].slice.call(grid.querySelectorAll('.fest__tile[data-full]'));
+    var i = fvTiles.indexOf(tile);
+    if (i < 0) return;
+    fvOpener = tile;
+    fvShow(i);
+    fv.classList.add('open');
+    fv.querySelector('.fv__close').focus();
+  }
+  function fvClose() {
+    if (!fvIsOpen()) return;
+    fv.classList.remove('open');
+    fvImg.removeAttribute('src');
+    if (fvOpener && document.contains(fvOpener)) fvOpener.focus();
+    fvOpener = null;
+  }
+
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('.fest__tile[data-full]');
+    if (t) { e.preventDefault(); fvOpen(t); }
+  });
+  // capture phase: Escape must close the slideshow without also closing the
+  // lightbox underneath, and that handler is a bubble-phase listener.
+  document.addEventListener('keydown', function (e) {
+    if (!fvIsOpen()) return;
+    if (e.key === 'Escape') { e.stopPropagation(); fvClose(); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); fvGo(1); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); fvGo(-1); }
+  }, true);
+
 })();

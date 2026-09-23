@@ -9,6 +9,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/favicon/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#0A0A0A">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -232,40 +238,75 @@
       <button class="fest__trigger" type="button" data-gallery="festGallery"
               aria-label="View festival selections and awards">
         <span class="fest__label">Festival selections &amp; awards</span>
-        <span class="fest__count">9</span>
+        <span class="fest__count">10</span>
       </button>
     </div>
 
     <!-- Lifted into the lightbox when the strip above is clicked. -->
+    <!-- Lifted into the lightbox when the strip above is clicked. Each tile is a
+         button: clicking one opens the slideshow so the posters can be read. -->
     <div id="festGallery" hidden>
       <div class="fest__grid">
-        <figure class="fest__tile">
-          <img src="media/festivals/mar-del-plata.jpg" alt="Mar del Plata" loading="lazy">
-        </figure>
-        <figure class="fest__tile">
-          <img src="media/festivals/promax-awards.jpg" alt="Promax Awards" loading="lazy">
-        </figure>
-        <figure class="fest__tile">
-          <img src="media/festivals/promax-awards-2.jpg" alt="Promax Awards" loading="lazy">
-        </figure>
-        <figure class="fest__tile">
-          <img src="media/festivals/poke.jpg" alt="Poke" loading="lazy">
-        </figure>
-        <figure class="fest__tile">
-          <img src="media/festivals/bafici.jpg" alt="Bafici" loading="lazy">
-        </figure>
-        <figure class="fest__tile">
-          <img src="media/festivals/martin-fierro-latino.png" alt="Martín Fierro Latino" loading="lazy">
-        </figure>
-        <figure class="fest__tile">
-          <img src="media/festivals/moscow.jpg" alt="Moscow International Film Festival" loading="lazy">
-        </figure>
-        <figure class="fest__tile">
-          <img src="media/festivals/cuba.png" alt="Festival de Cuba" loading="lazy">
-        </figure>
-        <figure class="fest__tile">
-          <img src="media/festivals/mexico.jpg" alt="Festival de México" loading="lazy">
-        </figure>
+        <button class="fest__tile" type="button"
+                data-full="media/festivals/mar-del-plata-40.jpg"
+                data-cap="40º Festival Internacional de Cine de Mar del Plata">
+          <span class="fest__shot"><img src="media/festivals/mar-del-plata-40.jpg" alt="40º Festival Internacional de Cine de Mar del Plata"></span>
+          <span class="fest__name">40º Mar del Plata</span>
+        </button>
+        <button class="fest__tile" type="button"
+                data-full="media/festivals/mar-del-plata.jpg"
+                data-cap="40º Mar del Plata — Lo mejor del festival">
+          <span class="fest__shot"><img src="media/festivals/mar-del-plata.jpg" alt="40º Mar del Plata — Lo mejor del festival"></span>
+          <span class="fest__name">Mar del Plata — flyer</span>
+        </button>
+        <button class="fest__tile" type="button"
+                data-full="media/festivals/bafici.jpg"
+                data-cap="BAFICI 21 — Buenos Aires Festival Internacional de Cine Independiente">
+          <span class="fest__shot"><img src="media/festivals/bafici.jpg" alt="BAFICI 21 — Buenos Aires Festival Internacional de Cine Independiente"></span>
+          <span class="fest__name">BAFICI 21</span>
+        </button>
+        <button class="fest__tile" type="button"
+                data-full="media/festivals/martin-fierro-latino.jpg"
+                data-cap="Martín Fierro Latino — Miami 2025">
+          <span class="fest__shot"><img src="media/festivals/martin-fierro-latino.jpg" alt="Martín Fierro Latino — Miami 2025"></span>
+          <span class="fest__name">Martín Fierro Latino</span>
+        </button>
+        <button class="fest__tile" type="button"
+                data-full="media/festivals/promax-awards.jpg"
+                data-cap="Promax Awards Latin America">
+          <span class="fest__shot"><img src="media/festivals/promax-awards.jpg" alt="Promax Awards Latin America"></span>
+          <span class="fest__name">Promax Awards</span>
+        </button>
+        <button class="fest__tile" type="button"
+                data-full="media/festivals/promax-awards-2.jpg"
+                data-cap="Promax Awards Latin America — Torneos">
+          <span class="fest__shot"><img src="media/festivals/promax-awards-2.jpg" alt="Promax Awards Latin America — Torneos"></span>
+          <span class="fest__name">Promax Awards — Torneos</span>
+        </button>
+        <button class="fest__tile" type="button"
+                data-full="media/festivals/poke.jpg"
+                data-cap="Poke — documentary, official selections">
+          <span class="fest__shot"><img src="media/festivals/poke.jpg" alt="Poke — documentary, official selections"></span>
+          <span class="fest__name">Poke</span>
+        </button>
+        <button class="fest__tile" type="button"
+                data-full="media/festivals/moscow.jpg"
+                data-cap="Moscow International Film Festival">
+          <span class="fest__shot"><img src="media/festivals/moscow.jpg" alt="Moscow International Film Festival"></span>
+          <span class="fest__name">Moscow IFF</span>
+        </button>
+        <button class="fest__tile" type="button"
+                data-full="media/festivals/cuba.png"
+                data-cap="Festival Internacional del Nuevo Cine Latinoamericano — La Habana">
+          <span class="fest__shot"><img src="media/festivals/cuba.png" alt="Festival Internacional del Nuevo Cine Latinoamericano — La Habana"></span>
+          <span class="fest__name">Nuevo Cine Latinoamericano</span>
+        </button>
+        <button class="fest__tile" type="button"
+                data-full="media/festivals/mexico.jpg"
+                data-cap="MICMXIFF — Festival Internacional de Cine, México">
+          <span class="fest__shot"><img src="media/festivals/mexico.jpg" alt="MICMXIFF — Festival Internacional de Cine, México"></span>
+          <span class="fest__name">MICMXIFF</span>
+        </button>
       </div>
     </div>
   </section>

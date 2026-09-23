@@ -1021,3 +1021,88 @@ body{background:var(--black)}
   .lb.is-gallery .lb__box{max-height:calc(100svh - var(--lb-chrome))}
 }
 .lb.is-gallery .lb__box > div{position:static;padding-right:4px}
+
+/* ======================================================================
+   POST-DELIVERY 32 — the festival gallery reads, and enlarges
+   ====================================================================== */
+
+/* The marks were being served at 720px and then squeezed into 190px tiles,
+   so a poster like the Mar del Plata flyer was unreadable. The files are now
+   the full originals, the tiles are bigger and carry a name, and every tile
+   is a button that opens a slideshow. Block 31 styled .fest__tile as the
+   paper box itself; the box is now .fest__shot, so the old paper, padding,
+   centring and 4/3 ratio have to be unset here. */
+.fest__grid{gap:clamp(14px,1.9vw,22px);
+  grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr))}
+.fest__tile{appearance:none;-webkit-appearance:none;border:0;border-radius:0;
+  background:none;padding:0;margin:0;color:var(--paper-45);font:inherit;
+  text-align:left;cursor:zoom-in;display:grid;gap:10px;place-items:stretch;
+  aspect-ratio:auto}
+/* Flex, not grid: as a grid item the image sized its own track, so a portrait
+   poster grew its tile and shouldered the rest of the row out of place.
+   min-height:0 lets max-height resolve against the 4/3 box instead. */
+.fest__shot{display:flex;align-items:center;justify-content:center;
+  aspect-ratio:4/3;overflow:hidden;border-radius:3px;
+  background:var(--paper);padding:clamp(14px,1.8vw,22px);
+  transition:transform .35s var(--ease)}
+.fest__shot img{flex:0 1 auto;min-width:0;min-height:0;
+  max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+.fest__name{font-size:12px;letter-spacing:.04em;line-height:1.35;
+  transition:color .3s var(--ease)}
+.fest__tile:hover .fest__shot,.fest__tile:focus-visible .fest__shot{transform:translateY(-3px)}
+.fest__tile:hover .fest__name,.fest__tile:focus-visible .fest__name{color:var(--paper)}
+
+/* The slideshow is mounted on <body>, not inside .lb, so neither the
+   lightbox's own overflow:auto nor any transformed ancestor can clip it.
+   .lb sits at z-index 300, so this goes above it. */
+.fv{position:fixed;inset:0;z-index:400;display:none;background:rgba(8,8,8,.97);
+  grid-template-rows:auto minmax(0,1fr) auto;gap:clamp(10px,2vh,18px);
+  padding:clamp(12px,2vw,22px)}
+.fv.open{display:grid}
+.fv__head{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.fv__count{font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--paper-45)}
+.fv__close{appearance:none;-webkit-appearance:none;background:none;padding:0;
+  width:44px;height:44px;display:grid;place-items:center;cursor:pointer;
+  border:1px solid var(--line-2);border-radius:999px;color:var(--paper-45);
+  transition:color .3s var(--ease),border-color .3s var(--ease)}
+.fv__close:hover,.fv__close:focus-visible{color:var(--paper);border-color:var(--paper)}
+.fv__close i{position:relative;display:block;width:16px;height:16px}
+.fv__close i::before,.fv__close i::after{content:"";position:absolute;top:50%;left:0;
+  width:100%;height:1px;background:currentColor}
+.fv__close i::before{transform:rotate(45deg)}
+.fv__close i::after{transform:rotate(-45deg)}
+
+.fv__stage{position:relative;display:flex;align-items:center;
+  justify-content:center;min-height:0;overflow:hidden}
+.fv__img{flex:0 1 auto;min-width:0;min-height:0;
+  max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;
+  background:var(--paper);border-radius:3px;padding:clamp(10px,1.6vw,24px)}
+.fv__nav{position:absolute;top:50%;translate:0 -50%;appearance:none;
+  -webkit-appearance:none;background:rgba(8,8,8,.6);padding:0;cursor:pointer;
+  width:52px;height:52px;display:grid;place-items:center;
+  border:1px solid var(--line-2);border-radius:999px;color:var(--paper-45);
+  transition:color .3s var(--ease),border-color .3s var(--ease),background .3s var(--ease)}
+.fv__nav:hover,.fv__nav:focus-visible{color:var(--paper);border-color:var(--paper);
+  background:rgba(8,8,8,.85)}
+.fv__nav--prev{left:0}
+.fv__nav--next{right:0}
+.fv__nav i{display:block;width:12px;height:12px;border-top:1px solid currentColor;
+  border-right:1px solid currentColor}
+.fv__nav--prev i{rotate:-135deg;margin-left:4px}
+.fv__nav--next i{rotate:45deg;margin-right:4px}
+
+.fv__foot{text-align:center;font-size:13px;line-height:1.4;color:var(--paper-45);
+  padding:0 clamp(48px,8vw,80px)}
+
+@media (max-width:700px){
+  .fest__grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr))}
+  .fv__nav{width:44px;height:44px}
+  .fv__nav--prev{left:-4px}
+  .fv__nav--next{right:-4px}
+  .fv__img{padding:10px}
+}
+@media (prefers-reduced-motion:reduce){
+  .fest__shot{transition:none}
+  .fest__tile:hover .fest__shot,.fest__tile:focus-visible .fest__shot{transform:none}
+}
